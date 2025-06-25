@@ -24,6 +24,6 @@
     "vite": "^7.0.0"
   },
   "lint-staged": {
-    "{src,test}/**/*": ["npm run lint", "npm run format:write"]
+    "{src,test}/**/*": ["eslint --fix", "prettier --write"]
   }
 }
