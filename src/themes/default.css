@@ -4,18 +4,20 @@ file-tree-view {
   height: fit-content;
   overflow: auto;
   background-color: var(--background-color);
+  font-family: Helvetica;
+  font-size: 14px;
 
   --left-indent: 20px;
   --name-indent: 20px;
   --line-height: 18px;
-  --default-file-icon: '📄';
-  --default-folder-icon: '📁';
-  --default-expanded-folder-icon: '📂';
+  --default-file-icon: "📄";
+  --default-folder-icon: "📁";
+  --default-expanded-folder-icon: "📂";
   --selected-color: gainsboro;
   --background-color: darkgray;
 }
 
-ftv-file, 
+ftv-file,
 ftv-folder {
   display: block;
   position: relative;
