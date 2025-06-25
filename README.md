@@ -126,14 +126,15 @@ fileTree.selectedItems
 
 #### Features
 
-- themes
-- tab control
-- keyboard navigation
-- hover indication
-- hint tooltip
-- aria
-- drag and drop
-- context menu
+- [ ] themes
+- [ ] tab control
+- [ ] keyboard navigation
+- [ ] hover indication
+- [ ] hint tooltip
+- [ ] aria
+- [ ] drag and drop
+- [ ] context menu
+- [ ] icons for specific file types
 
 ## Related
 
