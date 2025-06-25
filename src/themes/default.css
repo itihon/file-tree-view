@@ -8,7 +8,7 @@ file-tree-view {
   font-size: 14px;
 
   --left-indent: 20px;
-  --name-indent: 20px;
+  --name-indent: 16px;
   --line-height: 18px;
   --default-file-icon: "📄";
   --default-folder-icon: "📁";
@@ -39,10 +39,15 @@ ftv-folder::after {
   top: 0;
   left: var(--name-indent);
   width: 100%;
+  height: var(--line-height);
+  padding-left: 4px;
 }
 
 ftv-file::before {
+  display: block;
   content: var(--default-file-icon);
+  width: var(--line-height);
+  height: var(--line-height);
 }
 
 ftv-folder[expanded]::before {
@@ -54,9 +59,11 @@ ftv-folder[expanded] {
 }
 
 ftv-folder::before {
+  display: block;
   content: var(--default-folder-icon);
   position: relative;
   left: calc(var(--left-indent) * (-1));
+  height: var(--line-height);
 }
 
 ftv-folder {
