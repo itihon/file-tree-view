@@ -20,6 +20,8 @@ type FolderNode = {
 } & FileTreeNode; 
 
 export default class FileTreeView extends HTMLElement {
+  private selectedItem:FTVFile | FTVFolder | null = null;
+
   load(tree:FolderNode, root:HTMLElement = this) {
     const { children, name } = tree;
     let parentNode = root;
@@ -52,6 +54,18 @@ export default class FileTreeView extends HTMLElement {
 
       if (target instanceof FTVFolder) {
         target.toggleExpanded();
+      }
+
+      if (this.selectedItem) {
+        if (this.selectedItem.isSelected()) {
+          this.selectedItem.toggleSelected();
+        }
+      }
+      
+      this.selectedItem = target;
+        
+      if (!this.selectedItem.isSelected()) {
+        this.selectedItem.toggleSelected();
       }
       
     });

@@ -1,6 +1,5 @@
 export default class FTVNode extends HTMLElement {
   private name:string;
-  private selected:boolean = false;
 
   constructor(name:string) {
     super();
@@ -13,15 +12,15 @@ export default class FTVNode extends HTMLElement {
   }
 
   isSelected() {
-    return this.selected;
+    return this.hasAttribute('selected');
   }
 
   setName(name:string) {
     this.name = name;
   }
 
-  setSelected(selected:boolean) {
-    this.selected = selected;
+  toggleSelected() {
+    this.toggleAttribute('selected');
   }
 }
 

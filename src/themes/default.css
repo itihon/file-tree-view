@@ -3,6 +3,7 @@ file-tree-view {
   width: 220px;
   height: fit-content;
   overflow: auto;
+  background-color: var(--background-color);
 
   --left-indent: 20px;
   --name-indent: 20px;
@@ -10,6 +11,8 @@ file-tree-view {
   --default-file-icon: '📄';
   --default-folder-icon: '📁';
   --default-expanded-folder-icon: '📂';
+  --selected-color: gainsboro;
+  --background-color: darkgray;
 }
 
 ftv-file, 
@@ -20,12 +23,20 @@ ftv-folder {
   height: var(--line-height);
 }
 
+ftv-file[selected]::after,
+ftv-folder[selected]::after,
+ftv-file[selected]::before,
+ftv-folder[selected]::before {
+  background-color: var(--selected-color);
+}
+
 ftv-file::after,
 ftv-folder::after {
   content: attr(name);
   position: absolute;
   top: 0;
   left: var(--name-indent);
+  width: 100%;
 }
 
 ftv-file::before {
