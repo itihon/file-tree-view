@@ -3,6 +3,7 @@ export default class FTVLabel extends HTMLElement {
     super();
 
     this.append(label);
+    this.classList.add("noselect");
   }
 }
 
