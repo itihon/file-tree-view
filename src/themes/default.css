@@ -15,6 +15,7 @@ file-tree-view {
   --default-expanded-folder-icon: "📂";
   --selected-color: gainsboro;
   --background-color: darkgray;
+  --hover-color: silver;
 }
 
 ftv-file,
@@ -40,6 +41,10 @@ ftv-label {
   height: var(--line-height);
   padding-left: 4px;
   cursor: pointer;
+}
+
+ftv-label:hover {
+  background-color: var(--hover-color);
 }
 
 ftv-file::before {

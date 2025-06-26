@@ -129,7 +129,7 @@ fileTree.selectedItems
 - [ ] themes
 - [ ] tab control
 - [ ] keyboard navigation
-- [ ] hover indication
+- [x] hover indication
 - [ ] hint tooltip
 - [ ] aria
 - [ ] drag and drop
