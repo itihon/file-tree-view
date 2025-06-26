@@ -69,12 +69,3 @@ ftv-folder::before {
 ftv-folder {
   padding-left: var(--left-indent);
 }
-
-/* DEBUG */
-ftv-folder {
-  border: 1px solid blue;
-}
-
-ftv-file {
-  border: 1px solid red;
-}
