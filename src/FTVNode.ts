@@ -1,26 +1,28 @@
-export default class FTVNode extends HTMLElement {
-  private name:string;
+import FTVLabel from "./FTVLabel";
 
-  constructor(name:string) {
+export default class FTVNode extends HTMLElement {
+  private label: FTVLabel;
+
+  constructor(name: string) {
     super();
-    this.name = name;
-    this.setAttribute('name', name);
+    this.label = new FTVLabel(name);
+    this.append(this.label);
+    this.setAttribute("name", name);
   }
 
   getName() {
-    return this.name;
+    return this.label.textContent;
   }
 
   isSelected() {
-    return this.hasAttribute('selected');
+    return this.hasAttribute("selected");
   }
 
-  setName(name:string) {
-    this.name = name;
+  setName(name: string) {
+    this.label.textContent = name;
   }
 
   toggleSelected() {
-    this.toggleAttribute('selected');
+    this.toggleAttribute("selected");
   }
 }
-

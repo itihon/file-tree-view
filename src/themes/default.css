@@ -25,22 +25,21 @@ ftv-folder {
   height: var(--line-height);
 }
 
-ftv-file[selected]::after,
-ftv-folder[selected]::after,
+ftv-file[selected] > ftv-label,
+ftv-folder[selected] > ftv-label,
 ftv-file[selected]::before,
 ftv-folder[selected]::before {
   background-color: var(--selected-color);
 }
 
-ftv-file::after,
-ftv-folder::after {
-  content: attr(name);
+ftv-label {
   position: absolute;
   top: 0;
   left: var(--name-indent);
   width: 100%;
   height: var(--line-height);
   padding-left: 4px;
+  cursor: pointer;
 }
 
 ftv-file::before {
@@ -48,6 +47,7 @@ ftv-file::before {
   content: var(--default-file-icon);
   width: var(--line-height);
   height: var(--line-height);
+  cursor: pointer;
 }
 
 ftv-folder[expanded]::before {
@@ -64,6 +64,7 @@ ftv-folder::before {
   position: relative;
   left: calc(var(--left-indent) * (-1));
   height: var(--line-height);
+  cursor: pointer;
 }
 
 ftv-folder {
