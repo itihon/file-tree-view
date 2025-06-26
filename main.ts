@@ -1,6 +1,7 @@
+import type {FileNode, FolderNode} from "./src/FileTreeView";
 import FileTreeView from "./src/index";
 
-const tree = {
+const tree:FolderNode = {
   type: 'folder',
   name: 'folder1',
   children: [
@@ -47,8 +48,47 @@ const tree = {
   ],
 };
 
-const fileTreeView = new FileTreeView();
+async function treeFromEntries(dirHandle:FileSystemDirectoryHandle):Promise<FolderNode> {
+  const tree = {} as FolderNode;
 
-fileTreeView.load(tree);
+  tree.type = 'folder';
+  tree.name = dirHandle.name;
+  tree.children = [];
 
-document.body.append(fileTreeView);
+  for await (let entry of dirHandle.entries()) {
+    const [name, fsHandle] = entry;
+
+    if (fsHandle instanceof FileSystemDirectoryHandle) {
+      const childTree = await treeFromEntries(fsHandle);
+      tree.children.push(childTree);
+    }
+
+    if (fsHandle instanceof FileSystemFileHandle) {
+      const file:FileNode = { type: 'file', name: fsHandle.name };
+      tree.children.push(file);
+    }
+  }
+
+  return tree; 
+}
+
+async function openDirectory() {
+  if (!('showDirectoryPicker' in window)) {
+    throw new Error('showDirectoryPicker is not available.');
+  }
+
+  const dirHandle = await showDirectoryPicker();
+
+  return treeFromEntries(dirHandle);
+}
+
+const openFolderBtn = document.querySelector('[openFolder]');
+
+openFolderBtn?.addEventListener('click', async () => {
+  const tree = await openDirectory();
+  const fileTreeView = new FileTreeView();
+
+  fileTreeView.load(tree);
+  document.body.append(fileTreeView);
+});
+
