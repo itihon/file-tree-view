@@ -130,6 +130,7 @@ fileTree.selectedItems
 - [ ] tab control
 - [ ] keyboard navigation
 - [x] hover indication
+- [ ] multiple selection
 - [ ] hint tooltip
 - [ ] aria
 - [ ] drag and drop
