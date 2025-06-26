@@ -8,13 +8,13 @@ type FileTreeNode = {
   selected?: boolean;
 };
 
-type FileNode = {
+export type FileNode = {
   type: "file";
 } & FileTreeNode;
 
 type FileOrFolder = FileNode | FolderNode;
 
-type FolderNode = {
+export type FolderNode = {
   type: "folder";
   expanded?: boolean;
   children?: FileOrFolder[];
