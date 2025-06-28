@@ -26,14 +26,14 @@ ftv-folder {
   height: var(--line-height);
 }
 
-ftv-file[selected] > label,
-ftv-folder[selected] > label,
+ftv-file[selected] > .label,
+ftv-folder[selected] > .label,
 ftv-file[selected]::before,
 ftv-folder[selected]::before {
   background-color: var(--selected-color);
 }
 
-label {
+.label {
   position: absolute;
   top: 0;
   left: var(--name-indent);
@@ -43,7 +43,7 @@ label {
   cursor: pointer;
 }
 
-label:hover {
+.label:hover {
   background-color: var(--hover-color);
 }
 

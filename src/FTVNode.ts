@@ -1,12 +1,14 @@
-export default class FTVNode extends HTMLElement {
-  private label: HTMLLabelElement;
+import FTVRef from './FTVRef';
+
+export default class FTVNode extends FTVRef {
+  private label: FTVRef;
 
   constructor(name: string) {
-    super();
-    this.label = document.createElement('label');
-    this.label.classList.add('noselect');
+    super(true);
+    this.label = new FTVRef(false);
+    this.label.classList.add('label', 'noselect');
     this.label.textContent = name;
-    this.append(this.label);
+    this.appendChild(this.label);
     this.setAttribute('name', name);
   }
 

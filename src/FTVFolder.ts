@@ -1,15 +1,17 @@
 import FTVFile from './FTVFile.js';
 import FTVNode from './FTVNode.js';
+import FTVRef from './FTVRef.js';
 
 export type FTVNodes = [FTVFolder | FTVFile] | [];
 
 export default class FTVFolder extends FTVNode {
-  private content: HTMLDivElement;
+  private content: FTVRef;
 
   constructor(name: string, children: FTVNodes = []) {
     super(name);
 
-    this.content = document.createElement('div');
+    this.content = new FTVRef(false);
+    this.content.classList.add('content');
     this.content.append(...children);
     this.appendChild(this.content);
   }
