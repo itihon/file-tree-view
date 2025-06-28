@@ -1,5 +1,6 @@
 import FTVFile from './FTVFile.js';
 import FTVFolder from './FTVFolder.js';
+import { type FTVNodes } from './FTVFolder.js';
 import './themes/default.css';
 
 type FileTreeNode = {
@@ -12,6 +13,7 @@ export type FileNode = {
 } & FileTreeNode;
 
 type FileOrFolder = FileNode | FolderNode;
+type FolderOrFileTreeView = FTVFolder | FileTreeView;
 
 export type FolderNode = {
   type: 'folder';
@@ -22,14 +24,21 @@ export type FolderNode = {
 export default class FileTreeView extends HTMLElement {
   private selectedItem: FTVFile | FTVFolder | null = null;
 
-  load(tree: FolderNode, root: HTMLElement = this) {
+  load(
+    tree: FolderNode,
+    root: FolderOrFileTreeView = this,
+    withRootNode = true,
+  ) {
     const { children, name } = tree;
-    let parentNode = root;
+    let currentNode: FolderOrFileTreeView = root;
 
-    const folder = new FTVFolder(name);
-    parentNode.appendChild(folder);
-
-    parentNode = folder;
+    if (withRootNode) {
+      const folder = new FTVFolder(name);
+      currentNode.addContent([folder]);
+      currentNode = folder;
+    } else {
+      currentNode = root;
+    }
 
     if (children) {
       children.forEach((child) => {
@@ -37,9 +46,9 @@ export default class FileTreeView extends HTMLElement {
 
         if (type === 'file') {
           const file = new FTVFile(name);
-          parentNode.appendChild(file);
+          currentNode.addContent([file]);
         } else {
-          this.load(child, folder);
+          this.load(child, currentNode);
         }
       });
     }
@@ -47,6 +56,10 @@ export default class FileTreeView extends HTMLElement {
 
   getSelectedItem() {
     return this.selectedItem;
+  }
+
+  addContent(content: FTVNodes) {
+    this.append(...content);
   }
 
   constructor() {
