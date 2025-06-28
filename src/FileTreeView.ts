@@ -1,7 +1,7 @@
-import FTVFile from "./FTVFile.js";
-import FTVFolder from "./FTVFolder.js";
-import FTVLabel from "./FTVLabel.js";
-import "./themes/default.css";
+import FTVFile from './FTVFile.js';
+import FTVFolder from './FTVFolder.js';
+import FTVLabel from './FTVLabel.js';
+import './themes/default.css';
 
 type FileTreeNode = {
   name: string;
@@ -9,13 +9,13 @@ type FileTreeNode = {
 };
 
 export type FileNode = {
-  type: "file";
+  type: 'file';
 } & FileTreeNode;
 
 type FileOrFolder = FileNode | FolderNode;
 
 export type FolderNode = {
-  type: "folder";
+  type: 'folder';
   expanded?: boolean;
   children?: FileOrFolder[];
 } & FileTreeNode;
@@ -36,7 +36,7 @@ export default class FileTreeView extends HTMLElement {
       children.forEach((child) => {
         const { type, name } = child;
 
-        if (type === "file") {
+        if (type === 'file') {
           const file = new FTVFile(name);
           parentNode.appendChild(file);
         } else {
@@ -46,8 +46,14 @@ export default class FileTreeView extends HTMLElement {
     }
   }
 
-  connectedCallback() {
-    this.addEventListener("click", (event) => {
+  getSelectedItem() {
+    return this.selectedItem;
+  }
+
+  constructor() {
+    super();
+
+    this.addEventListener('click', (event) => {
       const target = event.target as FTVFile | FTVFolder | FTVLabel;
 
       const node =
@@ -78,4 +84,4 @@ export default class FileTreeView extends HTMLElement {
   }
 }
 
-customElements.define("file-tree-view", FileTreeView);
+customElements.define('file-tree-view', FileTreeView);
