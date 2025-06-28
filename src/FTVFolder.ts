@@ -1,28 +1,33 @@
-import FTVFile from "./FTVFile.js";
-import FTVNode from "./FTVNode.js";
+import FTVFile from './FTVFile.js';
+import FTVNode from './FTVNode.js';
 
 export default class FTVFolder extends FTVNode {
+  private content: HTMLDivElement;
+
   constructor(name: string, children: [FTVFolder | FTVFile] | [] = []) {
     super(name);
 
-    this.append(...children);
+    this.content = document.createElement('div');
+    this.content.append(...children);
+    this.appendChild(this.content);
+
+    this.append = this.append.bind(this.content);
+    this.appendChild = this.appendChild.bind(this.content);
   }
 
   isExpanded() {
-    return this.hasAttribute("expanded");
+    return this.hasAttribute('expanded');
   }
 
   toggleExpanded() {
-    this.toggleAttribute("expanded");
+    this.toggleAttribute('expanded');
   }
 
   clear() {
-    this.childNodes.forEach((childNode) => {
-      if (childNode instanceof FTVNode) {
-        childNode.remove();
-      }
+    this.content.childNodes.forEach((childNode) => {
+      childNode.remove();
     });
   }
 }
 
-customElements.define("ftv-folder", FTVFolder);
+customElements.define('ftv-folder', FTVFolder);
