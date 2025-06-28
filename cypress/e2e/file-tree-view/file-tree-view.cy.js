@@ -1,5 +1,5 @@
 import FileTreeView from '../../../src/index';
-import treeFixture from '../../fixtures/1-file-tee-view';
+import treeFixture from '../../fixtures/1-file-tree-view';
 
 describe('file-tree-view', () => {
   it('has certain DOM structure', () => {
