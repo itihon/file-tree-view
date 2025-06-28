@@ -12,4 +12,9 @@ export default defineConfig([
   { files, plugins: { js }, extends: ["js/recommended"] },
   { files, languageOptions: { globals: globals.browser } },
   tseslint.configs.recommended.map(cfg => ({ ...cfg, files })),
+  {
+    rules: {
+      "@typescript-eslint/no-this-alias": "off"
+    }
+  }
 ]);
