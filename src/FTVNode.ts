@@ -25,4 +25,16 @@ export default class FTVNode extends HTMLElement {
   toggleSelected() {
     this.toggleAttribute("selected");
   }
+
+  getRelativePath() {
+    let node: FTVNode = this;
+    let path = "";
+
+    while (node instanceof FTVNode) {
+      path = "/" + node.getName() + path;
+      node = node.parentNode as FTVNode;
+    }
+
+    return path;
+  }
 }
