@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "format:check": "prettier {src,test}/**/*.{js,ts,css} --check",
-    "format:write": "prettier {src,test}/**/*.{js,ts,css} --write",
+    "format:check": "prettier {src,test}/**/*.{js,ts,css} --check --no-error-on-unmatched-pattern",
+    "format:write": "prettier {src,test}/**/*.{js,ts,css} --write --no-error-on-unmatched-pattern",
     "lint": "eslint",
     "prepare": "husky"
   },
