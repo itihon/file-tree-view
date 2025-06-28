@@ -74,7 +74,7 @@ export default class FileTreeView extends HTMLElement {
         node.toggleExpanded();
 
         if (!node.isExpanded()) {
-          node.clear();
+          node.clearContent();
         }
       }
 

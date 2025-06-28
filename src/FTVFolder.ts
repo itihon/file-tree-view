@@ -28,10 +28,10 @@ export default class FTVFolder extends FTVNode {
     this.content.append(...content);
   }
 
-  clear() {
-    this.content.childNodes.forEach((childNode) => {
-      childNode.remove();
-    });
+  clearContent() {
+    while (this.content.firstChild) {
+      this.content.firstChild.remove();
+    }
   }
 }
 
