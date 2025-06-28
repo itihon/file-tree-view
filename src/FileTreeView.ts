@@ -1,6 +1,5 @@
 import FTVFile from './FTVFile.js';
 import FTVFolder from './FTVFolder.js';
-import FTVLabel from './FTVLabel.js';
 import './themes/default.css';
 
 type FileTreeNode = {
@@ -54,10 +53,10 @@ export default class FileTreeView extends HTMLElement {
     super();
 
     this.addEventListener('click', (event) => {
-      const target = event.target as FTVFile | FTVFolder | FTVLabel;
+      const target = event.target as FTVFile | FTVFolder | HTMLLabelElement;
 
       const node =
-        target instanceof FTVLabel
+        target instanceof HTMLLabelElement
           ? (target.parentNode as FTVFile | FTVFolder)
           : target;
 

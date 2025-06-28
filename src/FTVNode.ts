@@ -1,13 +1,13 @@
-import FTVLabel from "./FTVLabel";
-
 export default class FTVNode extends HTMLElement {
-  private label: FTVLabel;
+  private label: HTMLLabelElement;
 
   constructor(name: string) {
     super();
-    this.label = new FTVLabel(name);
+    this.label = document.createElement('label');
+    this.label.classList.add('noselect');
+    this.label.textContent = name;
     this.append(this.label);
-    this.setAttribute("name", name);
+    this.setAttribute('name', name);
   }
 
   getName() {
@@ -15,7 +15,7 @@ export default class FTVNode extends HTMLElement {
   }
 
   isSelected() {
-    return this.hasAttribute("selected");
+    return this.hasAttribute('selected');
   }
 
   setName(name: string) {
@@ -23,15 +23,15 @@ export default class FTVNode extends HTMLElement {
   }
 
   toggleSelected() {
-    this.toggleAttribute("selected");
+    this.toggleAttribute('selected');
   }
 
   getRelativePath() {
     let node: FTVNode = this;
-    let path = "";
+    let path = '';
 
     while (node instanceof FTVNode) {
-      path = "/" + node.getName() + path;
+      path = '/' + node.getName() + path;
       node = node.parentNode as FTVNode;
     }
 

@@ -10,9 +10,9 @@ file-tree-view {
   --left-indent: 20px;
   --name-indent: 16px;
   --line-height: 18px;
-  --default-file-icon: "📄";
-  --default-folder-icon: "📁";
-  --default-expanded-folder-icon: "📂";
+  --default-file-icon: '📄';
+  --default-folder-icon: '📁';
+  --default-expanded-folder-icon: '📂';
   --selected-color: gainsboro;
   --background-color: darkgray;
   --hover-color: silver;
@@ -26,14 +26,14 @@ ftv-folder {
   height: var(--line-height);
 }
 
-ftv-file[selected] > ftv-label,
-ftv-folder[selected] > ftv-label,
+ftv-file[selected] > label,
+ftv-folder[selected] > label,
 ftv-file[selected]::before,
 ftv-folder[selected]::before {
   background-color: var(--selected-color);
 }
 
-ftv-label {
+label {
   position: absolute;
   top: 0;
   left: var(--name-indent);
@@ -43,7 +43,7 @@ ftv-label {
   cursor: pointer;
 }
 
-ftv-label:hover {
+label:hover {
   background-color: var(--hover-color);
 }
 
