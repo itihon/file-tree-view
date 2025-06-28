@@ -16,6 +16,7 @@
     "@eslint/js": "^9.29.0",
     "@types/wicg-file-system-access": "^2023.10.6",
     "cypress": "^14.5.0",
+    "cypress-vite": "^1.6.0",
     "eslint": "^9.29.0",
     "globals": "^16.2.0",
     "husky": "^9.1.7",
@@ -30,5 +31,8 @@
       "eslint --fix",
       "prettier --write"
     ]
+  },
+  "overrides": {
+    "vite": "^7.0.0"
   }
 }
