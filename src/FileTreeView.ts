@@ -1,6 +1,5 @@
 import FTVFile from './FTVFile.js';
 import FTVFolder from './FTVFolder.js';
-import { type FTVNodes } from './FTVFolder.js';
 import './themes/default.css';
 
 type FileTreeNode = {
@@ -58,7 +57,7 @@ export default class FileTreeView extends HTMLElement {
     return this.selectedItem;
   }
 
-  addContent(content: FTVNodes) {
+  addContent(content: [HTMLElement] | [] = []) {
     this.append(...content);
   }
 

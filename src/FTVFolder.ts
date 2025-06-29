@@ -1,19 +1,8 @@
-import FTVFile from './FTVFile.js';
 import FTVNode from './FTVNode.js';
-import FTVRef from './FTVRef.js';
-
-export type FTVNodes = [FTVFolder | FTVFile] | [];
 
 export default class FTVFolder extends FTVNode {
-  private content: FTVRef;
-
-  constructor(name: string, children: FTVNodes = []) {
-    super(name);
-
-    this.content = new FTVRef(false);
-    this.content.classList.add('content');
-    this.content.append(...children);
-    this.appendChild(this.content);
+  constructor(name: string, children: [FTVNode] | [] = []) {
+    super(name, children);
   }
 
   isExpanded() {
@@ -24,14 +13,12 @@ export default class FTVFolder extends FTVNode {
     this.toggleAttribute('expanded');
   }
 
-  addContent(content: FTVNodes) {
-    this.content.append(...content);
+  addContent(content: [FTVNode] | [] = []) {
+    super.addContent(content);
   }
 
   clearContent() {
-    while (this.content.firstChild) {
-      this.content.firstChild.remove();
-    }
+    super.clearContent();
   }
 }
 
