@@ -8,7 +8,6 @@ file-tree-view {
   font-size: 14px;
 
   --left-indent: 20px;
-  --name-indent: 16px;
   --line-height: 18px;
   --default-file-icon: '📄';
   --default-folder-icon: '📁';
@@ -21,59 +20,50 @@ file-tree-view {
 ftv-file,
 ftv-folder {
   display: block;
-  position: relative;
   overflow: hidden;
   height: var(--line-height);
 }
 
 ftv-file[selected] > .label,
-ftv-folder[selected] > .label,
-ftv-file[selected]::before,
-ftv-folder[selected]::before {
+ftv-folder[selected] > .label {
   background-color: var(--selected-color);
-}
-
-.label {
-  position: absolute;
-  top: 0;
-  left: var(--name-indent);
-  width: 100%;
-  height: var(--line-height);
-  padding-left: 4px;
-  cursor: pointer;
 }
 
 .label:hover {
   background-color: var(--hover-color);
 }
 
-ftv-file::before {
+.label {
   display: block;
-  content: var(--default-file-icon);
-  width: var(--line-height);
   height: var(--line-height);
   cursor: pointer;
 }
 
-ftv-folder[expanded]::before {
+.label::before {
+  display: inline-block;
+  width: var(--line-height);
+  height: var(--line-height);
+}
+
+.content {
+  display: block;
+  padding-left: var(--left-indent);
+}
+
+ftv-file > .label::before {
+  content: var(--default-file-icon);
+}
+
+ftv-folder > .label::before {
+  content: var(--default-folder-icon);
+}
+
+ftv-folder[expanded] > .label::before {
   content: var(--default-expanded-folder-icon);
 }
 
 ftv-folder[expanded] {
   height: fit-content;
-}
-
-ftv-folder::before {
-  display: block;
-  content: var(--default-folder-icon);
-  position: relative;
-  left: calc(var(--left-indent) * (-1));
-  height: var(--line-height);
-  cursor: pointer;
-}
-
-ftv-folder {
-  padding-left: var(--left-indent);
 }
 
 .noselect {
