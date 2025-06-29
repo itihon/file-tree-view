@@ -138,4 +138,42 @@ describe('file-tree-view', () => {
       });
     });
   });
+
+  describe('file-view-view pointer events', () => {
+    it('expands folders on click and selects folders and files', () => {
+      visitLocalhost();
+      
+      asyncForeach(
+        [
+          () => constructLoadAppend(treeStructure),
+          () => constructAppendLoad(treeStructure),
+          () => markupLoad(treeStructure),
+        ],
+        () => {
+          return cy
+            .get('file-tree-view')
+            .contains('folder1').click() // folder label click
+
+            .get('[name="folder1"]').should('have.attr', 'expanded') // same folder
+
+            .get('[selected]').should('have.length', 1)
+            .should('have.attr', 'name').and('equal', 'folder1') // same folder
+
+            .get('[name="folder2"]').click() // folder click
+            .get('[selected]').should('have.length', 1) // same folder
+            .should('have.attr', 'expanded') // same folder
+            .get('[selected]').should('have.length', 1) // same folder
+            .should('have.attr', 'name').and('equal', 'folder2') // same folder
+
+            .get('[name="file1"]').contains('file1').click() // file label click
+            .get('[selected]').should('have.length', 1)
+            .should('have.attr', 'name').and('equal', 'file1') // same file
+            
+            .get('[name="file3"]').click() // file click
+            .get('[selected]').should('have.length', 1)
+            .should('have.attr', 'name').and('equal', 'file3') // same file
+        }
+      );
+    });
+  });
 });
