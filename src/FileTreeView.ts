@@ -67,6 +67,11 @@ export default class FileTreeView extends HTMLElement {
     this.addEventListener('click', (event) => {
       const target = event.target as FTVFile | FTVFolder;
 
+      // prevent clicks on folders's content area
+      if (target.classList.contains('content')) {
+        return;
+      }
+
       const node = target.getNode() as FTVFile | FTVFolder;
 
       if (node instanceof FTVFolder) {
