@@ -56,6 +56,18 @@ export default class FTVNode extends FTVRef {
     return this.hasAttribute('selected');
   }
 
+  toggleSelected() {
+    this.toggleAttribute('selected');
+  }
+
+  select() {
+    this.toggleAttribute('selected', true);
+  }
+
+  deselect() {
+    this.toggleAttribute('selected', false);
+  }
+
   setName(name: string) {
     if (name.trim().length === 0) {
       throw new Error('File or folder name cannot be empty');
@@ -65,10 +77,6 @@ export default class FTVNode extends FTVRef {
     } else {
       this.label.textContent = name;
     }
-  }
-
-  toggleSelected() {
-    this.toggleAttribute('selected');
   }
 
   getRelativePath() {

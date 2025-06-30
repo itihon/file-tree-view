@@ -13,6 +13,14 @@ export default class FTVFolder extends FTVNode {
     this.toggleAttribute('expanded');
   }
 
+  expand() {
+    this.toggleAttribute('expanded', true);
+  }
+
+  collapse() {
+    this.toggleAttribute('expanded', false);
+  }
+
   addContent(content: [FTVNode] | [] = []) {
     super.addContent(content);
   }

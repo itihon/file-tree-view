@@ -79,16 +79,11 @@ export default class FileTreeView extends HTMLElement {
       }
 
       if (this.selectedItem) {
-        if (this.selectedItem.isSelected()) {
-          this.selectedItem.toggleSelected();
-        }
+        this.selectedItem.deselect();
       }
 
       this.selectedItem = node;
-
-      if (!this.selectedItem.isSelected()) {
-        this.selectedItem.toggleSelected();
-      }
+      this.selectedItem.select();
     });
   }
 }
