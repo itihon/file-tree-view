@@ -1,3 +1,4 @@
+import type FTVFolder from './FTVFolder';
 import FTVRef from './FTVRef';
 
 export default class FTVNode extends FTVRef {
@@ -41,6 +42,7 @@ export default class FTVNode extends FTVRef {
 
     // execution order of createContent and createLabel functions must be held
     if (children) {
+      // by presense of children, the node's type can be defined: folder|file
       this.createContent(...children, ...this.children);
     }
     this.createLabel(nodeName);
@@ -89,5 +91,9 @@ export default class FTVNode extends FTVRef {
     }
 
     return path;
+  }
+
+  isFolder(): this is FTVFolder {
+    return this.content !== null;
   }
 }

@@ -74,7 +74,7 @@ export default class FileTreeView extends HTMLElement {
 
       const node = target.getNode() as FTVFile | FTVFolder;
 
-      if (node instanceof FTVFolder) {
+      if (node && node.isFolder()) {
         node.toggleExpanded();
       }
 
