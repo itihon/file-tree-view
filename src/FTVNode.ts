@@ -51,8 +51,8 @@ export default class FTVNode extends FTVRef<FTVNode> {
     }
     this.createLabel(nodeName);
 
-    this.tabIndex = -1;
     this.setAttribute('name', nodeName);
+    this.tabIndex = -1;
   }
 
   getContainingFolder(): FTVFolder | null {
