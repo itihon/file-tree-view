@@ -25,6 +25,10 @@ export default class FTVFolder extends FTVNode {
     super.addContent(content);
   }
 
+  getContent() {
+    return super.getContent()!; // if FTVNode is folder, content container exists
+  }
+
   clearContent() {
     super.clearContent();
   }

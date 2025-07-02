@@ -13,6 +13,10 @@ export default class FTVNode extends FTVRef<FTVNode> {
     }
   }
 
+  protected getContent() {
+    return this.content;
+  }
+
   protected clearContent() {
     if (this.content) {
       while (this.content.firstChild) {
