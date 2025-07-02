@@ -13,6 +13,7 @@ file-tree-view {
   --default-folder-icon: '📁';
   --default-expanded-folder-icon: '📂';
   --selected-color: gainsboro;
+  --focus-color: #cacaca;
   --background-color: darkgray;
   --hover-color: silver;
 }
@@ -22,6 +23,20 @@ ftv-folder {
   display: block;
   overflow: hidden;
   height: var(--line-height);
+}
+
+ftv-file:focus-visible > .label,
+ftv-folder:focus-visible > .label,
+ftv-file:focus > .label,
+ftv-folder:focus > .label {
+  background-color: var(--focus-color);
+}
+
+ftv-file:focus-visible,
+ftv-folder:focus-visible,
+ftv-file:focus,
+ftv-folder:focus {
+  outline: none;
 }
 
 ftv-file[selected] > .label,

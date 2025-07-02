@@ -23,6 +23,87 @@ export type FolderNode = {
 export default class FileTreeView extends HTMLElement {
   private selectedItem: FTVFile | FTVFolder | null = null;
 
+  private getLastVisibleNode(folder: FTVFolder): FTVFile | FTVFolder {
+    if (folder.isExpanded()) {
+      const content = folder.getContent();
+
+      if (content.children.length) {
+        const lastChild = content.lastElementChild as FTVFile | FTVFolder;
+
+        if (lastChild.isFolder()) {
+          return this.getLastVisibleNode(lastChild);
+        }
+
+        return lastChild;
+      } else {
+        return folder;
+      }
+    }
+
+    return folder;
+  }
+
+  private getNextVisibleNode(node: FTVFile | FTVFolder): FTVFile | FTVFolder {
+    const nextNode = node.nextElementSibling as FTVFile | FTVFolder | null;
+
+    if (nextNode) {
+      return nextNode;
+    }
+
+    const containingFolder = node.getContainingFolder();
+
+    if (containingFolder) {
+      const isNotRootFolder = containingFolder.getContainingFolder() !== null;
+
+      if (isNotRootFolder) {
+        return this.getNextVisibleNode(containingFolder);
+      }
+    }
+
+    return node;
+  }
+
+  private focusPrevious(currentNode: FTVFile | FTVFolder) {
+    const previousNode = currentNode.previousElementSibling as
+      | FTVFile
+      | FTVFolder
+      | null;
+
+    if (previousNode) {
+      if (previousNode.isFolder()) {
+        this.getLastVisibleNode(previousNode).focus();
+      } else {
+        previousNode.focus();
+      }
+    } else {
+      const containingFolder = currentNode.getContainingFolder();
+
+      if (containingFolder) {
+        containingFolder.focus();
+      }
+    }
+  }
+
+  private focusNext(currentNode: FTVFile | FTVFolder) {
+    if (currentNode.isFolder()) {
+      if (currentNode.isExpanded()) {
+        const content = currentNode.getContent();
+
+        if (content.children.length) {
+          const firstChild = content.firstElementChild as FTVFile | FTVFolder;
+
+          firstChild.focus();
+        } else {
+          this.getNextVisibleNode(currentNode).focus();
+        }
+      } else {
+        this.getNextVisibleNode(currentNode).focus();
+      }
+    } else {
+      this.getNextVisibleNode(currentNode).focus();
+    }
+  }
+
   load(
     tree: FolderNode,
     root: FolderOrFileTreeView = this,
@@ -85,6 +166,28 @@ export default class FileTreeView extends HTMLElement {
       this.selectedItem = node;
       this.selectedItem.select();
     });
+
+    this.addEventListener('keydown', (event) => {
+      const focusedElement =
+        document.activeElement === this
+          ? (this.firstElementChild as FTVFile | FTVFolder)
+          : (document.activeElement as FTVFile | FTVFolder);
+
+      if (focusedElement) {
+        const node = focusedElement.getNode() as FTVFile | FTVFolder;
+
+        if (node) {
+          if (event.code === 'ArrowUp') {
+            this.focusPrevious(node);
+          }
+          if (event.code === 'ArrowDown') {
+            this.focusNext(node);
+          }
+        }
+      }
+    });
+
+    this.tabIndex = 0;
   }
 }
 

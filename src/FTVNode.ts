@@ -51,6 +51,7 @@ export default class FTVNode extends FTVRef<FTVNode> {
     }
     this.createLabel(nodeName);
 
+    this.tabIndex = -1;
     this.setAttribute('name', nodeName);
   }
 
@@ -82,6 +83,10 @@ export default class FTVNode extends FTVRef<FTVNode> {
 
   deselect() {
     this.toggleAttribute('selected', false);
+  }
+
+  isFocused() {
+    return document.activeElement === this;
   }
 
   setName(name: string) {
