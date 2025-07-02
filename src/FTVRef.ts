@@ -1,14 +1,12 @@
-type GetNode = () => HTMLElement | null;
+export default class FTVRef<T extends FTVRef<T>> extends HTMLElement {
+  public getNode: () => T | null;
 
-export default class FTVRef extends HTMLElement {
-  public getNode: GetNode;
-
-  private getSelfRef() {
-    return this;
+  private getSelfRef(): T {
+    return this as unknown as T;
   }
 
-  private getParentRef() {
-    return this.parentNode as HTMLElement | null;
+  private getParentRef(): T | null {
+    return this.parentNode as unknown as T | null;
   }
 
   constructor(isSelf: boolean) {

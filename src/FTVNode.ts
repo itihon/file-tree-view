@@ -1,9 +1,9 @@
 import type FTVFolder from './FTVFolder';
 import FTVRef from './FTVRef';
 
-export default class FTVNode extends FTVRef {
-  private label: FTVRef | null = null;
-  private content: FTVRef | null = null;
+export default class FTVNode extends FTVRef<FTVNode> {
+  private label: FTVRef<FTVNode> | null = null;
+  private content: FTVRef<FTVNode> | null = null;
 
   protected addContent(content: [FTVNode] | [] = []) {
     if (!this.content) {
