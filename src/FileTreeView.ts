@@ -183,6 +183,36 @@ export default class FileTreeView extends HTMLElement {
           if (event.code === 'ArrowDown') {
             this.focusNext(node);
           }
+
+          if (event.code === 'ArrowLeft') {
+            if (node.isFolder() && node.isExpanded()) {
+              node.collapse();
+            } else {
+              const containingFolder = node.getContainingFolder();
+
+              if (containingFolder) {
+                containingFolder.focus();
+              }
+            }
+          }
+
+          if (event.code === 'ArrowRight') {
+            if (node.isFolder()) {
+              if (!node.isExpanded()) {
+                node.expand();
+              } else {
+                const firstChild = node.getContent().firstElementChild as
+                  | FTVFile
+                  | FTVFolder;
+
+                if (firstChild) {
+                  firstChild.focus();
+                } else {
+                  this.focusNext(node);
+                }
+              }
+            }
+          }
         }
       }
     });
