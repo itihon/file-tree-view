@@ -54,6 +54,16 @@ export default class FTVNode extends FTVRef<FTVNode> {
     this.setAttribute('name', nodeName);
   }
 
+  getContainingFolder(): FTVFolder | null {
+    const parentElement = this.parentElement as FTVRef<FTVNode> | null;
+
+    if (parentElement instanceof FTVRef) {
+      return parentElement.getNode() as FTVFolder | null;
+    }
+
+    return null;
+  }
+
   getName() {
     if (this.label) return this.label.textContent;
   }
