@@ -213,6 +213,32 @@ export default class FileTreeView extends HTMLElement {
               }
             }
           }
+
+          if (event.code === 'Home') {
+            const firstChild = this.firstElementChild as
+              | FTVFile
+              | FTVFolder
+              | null;
+
+            if (firstChild) {
+              firstChild.focus();
+            }
+          }
+
+          if (event.code === 'End') {
+            const lastChild = this.lastElementChild as
+              | FTVFile
+              | FTVFolder
+              | null;
+
+            if (lastChild) {
+              if (lastChild.isFolder()) {
+                this.getLastVisibleNode(lastChild).focus();
+              } else {
+                lastChild.focus();
+              }
+            }
+          }
         }
       }
     });

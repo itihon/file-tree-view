@@ -128,7 +128,7 @@ fileTree.selectedItems
 
 - [ ] themes
 - [ ] tab control
-- [ ] keyboard navigation: [x]up, [x]down, [x]left, [x]right, Home, End, Tabindex for main container
+- [ ] keyboard navigation: [x]up, [x]down, [x]left, [x]right, [x]Home, [x]End, Tabindex for main container
 - [x] hover indication
 - [ ] multiple selection
 - [ ] hint tooltip
