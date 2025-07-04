@@ -138,8 +138,61 @@ export default class FileTreeView extends HTMLElement {
     return this.selectedItem;
   }
 
+  getNodeByPath(path: string): FileTreeView | FTVFile | FTVFolder | null {
+    let currentFolder: FileTreeView | FTVFile | FTVFolder | null = this;
+
+    const folderNames = path.split('/');
+    for (const folderName of folderNames) {
+      if (folderName) {
+        if (currentFolder) {
+          currentFolder = currentFolder.querySelector(
+            `[name="${folderName}"]`,
+          ) as FTVFile | FTVFolder | null;
+        }
+      }
+    }
+
+    return currentFolder;
+  }
+
   addContent(content: [FTVFile | FTVFolder] | [] = []) {
     this.append(...content);
+  }
+
+  addNode(path: string, name: string, type: 'file' | 'folder') {
+    const node = this.getNodeByPath(path);
+
+    if (!node) {
+      throw new Error(`Path ${path} not found.`);
+    }
+
+    if (node === this && this.firstElementChild) {
+      throw new Error('This tree-view already has a root element.');
+    }
+
+    if (!(node instanceof FTVFolder)) {
+      throw new Error(`Path ${path} is not a folder.`);
+    }
+
+    if (type === 'file') {
+      const file = new FTVFile(name);
+      node.addContent([file]);
+    }
+
+    if (type === 'folder') {
+      const folder = new FTVFolder(name);
+      node.addContent([folder]);
+    }
+  }
+
+  removeNode(path: string) {
+    const node = this.getNodeByPath(path);
+
+    if (!node || node === this) {
+      throw new Error(`Path ${path} not found.`);
+    }
+
+    node.remove();
   }
 
   constructor() {
