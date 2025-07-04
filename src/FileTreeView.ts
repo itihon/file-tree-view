@@ -224,7 +224,7 @@ export default class FileTreeView extends HTMLElement {
       const focusedElement =
         document.activeElement === this
           ? (this.firstElementChild as FTVFile | FTVFolder)
-          : (document.activeElement as FTVFile | FTVFolder);
+          : (event.target as FTVFile | FTVFolder);
 
       if (focusedElement) {
         const node = focusedElement.getNode() as FTVFile | FTVFolder;
