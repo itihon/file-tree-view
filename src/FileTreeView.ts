@@ -138,7 +138,7 @@ export default class FileTreeView extends HTMLElement {
     return this.selectedItem;
   }
 
-  addContent(content: [HTMLElement] | [] = []) {
+  addContent(content: [FTVFile | FTVFolder] | [] = []) {
     this.append(...content);
   }
 
