@@ -305,6 +305,74 @@ describe('file-tree-view', () => {
       );
     });
 
+    it('moves focus up on arrow up click', () => {
+      visitLocalhost();
+      
+      asyncForeach(
+        [
+          () => constructLoadAppend(treeStructure),
+          () => constructAppendLoad(treeStructure),
+          () => markupLoad(treeStructure),
+        ],
+        () => {
+          return cy
+            .get('[name="folder1"]').click()
+            .get('[name="folder2"]').click()
+            .get('[name="folder4"]').click()
+            .get('[name="folder5"]').focus()
+            .type('{upArrow}')
+            .get('[name="file6"]')
+            .should('have.focus')
+            .type('{upArrow}')
+            .get('[name="file5"]')
+            .should('have.focus')
+            .type('{upArrow}')
+            .get('[name="folder4"]')
+            .should('have.focus')
+            .type('{upArrow}')
+            .get('[name="folder3"]')
+            .should('have.focus')
+            .click()
+            .get('[name="folder4"]').focus()
+            .type('{upArrow}')
+            .get('[name="folder3"]')
+            .should('have.focus')
+            .document()
+            .then((document) => document
+              .querySelector('file-tree-view')
+              .addNode('/folder1/folder2/folder3', 'folder6', 'folder')
+            )
+            .document()
+            .then((document) => document
+              .querySelector('file-tree-view')
+              .addNode('/folder1/folder2/folder3/folder6', 'file7', 'file')
+            )
+            .get('[name="folder4"]').focus()
+            .type('{upArrow}')
+            .get('[name="folder6"]')
+            .should('have.focus')
+            .click()
+            .get('[name="folder4"]').focus()
+            .type('{upArrow}')
+            .get('[name="file7"]')
+            .should('have.focus')
+            .get('[name="folder2"]').contains('folder2').click()
+            .get('[name="folder4"]').focus()
+            .type('{upArrow}')
+            .get('[name="folder2"]')
+            .should('have.focus')
+            .type('{upArrow}')
+            .get('[name="file1"]')
+            .should('have.focus')
+            .type('{upArrow}')
+            .get('[name="folder1"]')
+            .should('have.focus')
+            .type('{upArrow}')
+            .get('[name="folder1"]')
+            .should('have.focus');
+        });
+    });
+
   });
 });
 
