@@ -106,7 +106,7 @@ export default class FTVNode extends FTVRef<FTVNode> {
 
     while (node instanceof FTVNode) {
       path = '/' + node.getName() + path;
-      node = node.parentNode as FTVNode;
+      node = node.getContainingFolder() as FTVNode;
     }
 
     return path;
