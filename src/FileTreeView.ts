@@ -223,18 +223,19 @@ export default class FileTreeView extends HTMLElement {
     });
 
     this.addEventListener('keydown', (event) => {
-      const focusedElement =
-        document.activeElement === this
-          ? (this.firstElementChild as FTVFile | FTVFolder)
+      const targetNode =
+        event.target === this
+          ? (this.firstElementChild as FTVFile | FTVFolder | null)
           : (event.target as FTVFile | FTVFolder);
 
-      if (focusedElement) {
-        const node = focusedElement.getNode() as FTVFile | FTVFolder;
+      if (targetNode) {
+        const node = targetNode.getNode() as FTVFile | FTVFolder;
 
         if (node) {
           if (event.code === 'ArrowUp') {
             this.focusPrevious(node);
           }
+
           if (event.code === 'ArrowDown') {
             this.focusNext(node);
           }
