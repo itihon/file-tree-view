@@ -176,7 +176,7 @@ describe('file-tree-view', () => {
       );
     });
 
-    it('moves focus down on arrow down click', () => {
+    it('moves focus down on arrow down press', () => {
       visitLocalhost();
       
       asyncForeach(
@@ -305,7 +305,7 @@ describe('file-tree-view', () => {
       );
     });
 
-    it('moves focus up on arrow up click', () => {
+    it('moves focus up on arrow up press', () => {
       visitLocalhost();
       
       asyncForeach(
