@@ -53,11 +53,13 @@ export default class FileTreeView extends HTMLElement {
     const containingFolder = node.getContainingFolder();
 
     if (containingFolder) {
-      const isNotRootFolder = containingFolder.getContainingFolder() !== null;
+      const nextUpperLevelNode = this.getNextVisibleNode(containingFolder);
 
-      if (isNotRootFolder) {
-        return this.getNextVisibleNode(containingFolder);
+      if (nextUpperLevelNode === containingFolder) {
+        return node;
       }
+
+      return nextUpperLevelNode;
     }
 
     return node;
