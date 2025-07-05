@@ -139,7 +139,7 @@ describe('file-tree-view', () => {
     });
   });
 
-  describe('file-view-view pointer events', () => {
+  describe('file-tree-view pointer and keyboard interaction', () => {
     it('expands folders on click and selects folders and files', () => {
       visitLocalhost();
       
@@ -175,5 +175,144 @@ describe('file-tree-view', () => {
         }
       );
     });
+
+    it('moves focus down on arrow down click', () => {
+      visitLocalhost();
+      
+      asyncForeach(
+        [
+          () => constructLoadAppend(treeStructure),
+          () => constructAppendLoad(treeStructure),
+          () => markupLoad(treeStructure),
+        ],
+        () => {
+          return cy
+            .get('file-tree-view')
+            .focus()
+            .should('have.focus')
+            .get('[name="folder1"]').click()
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="file1"]')
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="folder2"]')
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="folder4"]')
+            .should('have.focus')
+            .get('[name="folder2"]').click() // expanded folder with content
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="file3"]')
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="file4"]')
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="folder3"]') // last collapsed folder in a nested folder
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="folder4"]')
+            .should('have.focus')
+            .get('[name="folder3"]').click() // last expanded empty folder in a nested folder
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="folder4"]') // last collapsed folder in the root folder
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="folder4"]')
+            .should('have.focus')
+            .document()
+            .then((document) => document
+              .querySelector('file-tree-view')
+              .addNode('folder1/folder2', 'file7', 'file')
+            )
+            .get('[name="folder3"]').focus() // not last expanded empty folder in a nested folder
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="file7"]') // last file in a nested folder
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="folder4"]')
+            .should('have.focus')
+            .document()
+            .then((document) => document
+              .querySelector('file-tree-view')
+              .addNode('folder1', 'file8', 'file')
+            )
+            .get('[name="folder4"]')
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="file8"]') // last file in the root folder
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="file8"]')
+            .should('have.focus')
+            .document()
+            .then((document) => document
+              .querySelector('file-tree-view')
+              .addNode('folder1', 'folder6', 'folder')
+            )
+            .get('[name="file8"]')
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="folder6"]').click() // last expanded empty folder in the root folder
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="folder6"]')
+            .should('have.focus')
+            .type('{downArrow}')
+            .document()
+            .then((document) => document
+              .querySelector('file-tree-view')
+              .removeNode('folder1/folder6')
+            )
+            .document()
+            .then((document) => document
+              .querySelector('file-tree-view')
+              .removeNode('folder1/file8')
+            )
+            .get('[name="folder4"]').click()
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="file5"]')
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="file6"]')
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="folder5"]') // very last collapsed folder in the last nested folder
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="folder5"]')
+            .should('have.focus')
+            .click() // very last expanded empty folder in the last nested folder
+            .type('{downArrow}')
+            .get('[name="folder5"]')
+            .should('have.focus')
+            .document()
+            .then((document) => document
+              .querySelector('file-tree-view')
+              .removeNode('folder1/folder4/folder5')
+            )
+            .get('[name="file6"]').click() // very last file in the last nested folder
+            .should('have.focus')
+            .type('{downArrow}')
+            .get('[name="file6"]')
+            .should('have.focus');
+        }
+      );
+    });
+
   });
 });
+
+/**
+ * inside root folder and inside nested folder
+ * lastChild:
+ *  file
+ *  collapsed folder
+ *  open folder with elements
+ *  open empty folder
+ */
