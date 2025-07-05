@@ -373,6 +373,58 @@ describe('file-tree-view', () => {
         });
     });
 
+    it('collapses folder and focuses parent folder on left arrow press', () => {
+      visitLocalhost();
+
+      asyncForeach(
+        [
+          () => constructLoadAppend(treeStructure),
+          () => constructAppendLoad(treeStructure),
+          () => markupLoad(treeStructure),
+        ],
+        () => {
+          return cy
+            .get('[name="folder1"]').click()
+            .get('[name="folder2"]').click()
+            .get('[name="folder3"]').focus()
+            .type('{leftArrow}')
+            .get('[name="folder2"]')
+            .should('have.focus')
+            .get('[name="folder3"]').click()
+            .should('have.attr', 'expanded')
+            .get('[name="folder3"]')
+            .type('{leftArrow}')
+            .should('have.focus')
+            .should('not.have.attr', 'expanded')
+            .get('[name="folder3"]')
+            .type('{leftArrow}')
+            .get('[name="folder2"]')
+            .should('have.focus')
+            .get('[name="file3"]').click()
+            .type('{leftArrow}')
+            .get('[name="folder2"]')
+            .should('have.focus')
+            .should('have.attr', 'expanded')
+            .get('[name="folder2"]')
+            .type('{leftArrow}')
+            .should('have.focus')
+            .should('not.have.attr', 'expanded')
+            .get('[name="folder2"]')
+            .type('{leftArrow}')
+            .get('[name="folder1"]')
+            .should('have.focus')
+            .should('have.attr', 'expanded')
+            .get('[name="folder1"]')
+            .type('{leftArrow}')
+            .should('have.focus')
+            .should('not.have.attr', 'expanded')
+            .get('[name="folder1"]')
+            .type('{leftArrow}')
+            .should('have.focus')
+            .should('not.have.attr', 'expanded');
+        });
+    });
+
   });
 });
 
