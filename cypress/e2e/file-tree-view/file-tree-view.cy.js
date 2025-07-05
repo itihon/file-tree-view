@@ -425,6 +425,42 @@ describe('file-tree-view', () => {
         });
     });
 
+    it('expands folder and focuses first child on right arrow press', () => {
+      visitLocalhost();
+
+      asyncForeach(
+        [
+          () => constructLoadAppend(treeStructure),
+          () => constructAppendLoad(treeStructure),
+          () => markupLoad(treeStructure),
+        ],
+        () => {
+          return cy
+            .get('body').press('Tab')
+            .get('file-tree-view')
+            .should('have.focus')
+            .get('[name="folder1"]')
+            .should('not.have.focus')
+            .should('not.have.attr', 'expanded')
+            .get('file-tree-view')
+            .type('{rightArrow}')
+            .get('[name="folder1"]')
+            .should('have.attr', 'expanded')
+            .get('[name="folder1"]')
+            .type('{rightArrow}')
+            .get('[name="file1"]')
+            .should('have.focus')
+            .type('{rightArrow}')
+            .should('have.focus')
+            .get('[name="folder2"]').focus()
+            .type('{rightArrow}')
+            .should('have.focus')
+            .type('{rightArrow}')
+            .get('[name="file3"]')
+            .should('have.focus');
+        });
+    });
+
   });
 });
 
