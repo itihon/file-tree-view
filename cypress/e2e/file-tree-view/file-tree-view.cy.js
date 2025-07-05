@@ -461,6 +461,48 @@ describe('file-tree-view', () => {
         });
     });
 
+    it('focuses the first and the last element with Home and End key press', () => {
+      visitLocalhost();
+
+      asyncForeach(
+        [
+          () => constructLoadAppend(treeStructure),
+          () => constructAppendLoad(treeStructure),
+          () => markupLoad(treeStructure),
+        ],
+        () => {
+          return cy
+            .get('[name="folder1"]').click()
+            .get('[name="folder2"]').click()
+            .get('[name="folder3"]').click()
+            .get('body').focus().press('Tab')
+            .get('file-tree-view')
+            .should('have.focus')
+            .type('{Home}')
+            .get('[name="folder1"]')
+            .should('have.focus')
+            .get('body').focus().press('Tab')
+            .get('file-tree-view')
+            .should('have.focus')
+            .type('{End}')
+            .get('[name="folder4"]')
+            .should('have.focus')
+            .click()
+            .type('{End}')
+            .get('[name="folder5"]')
+            .should('have.focus')
+            .type('{End}')
+            .get('[name="folder5"]')
+            .should('have.focus')
+            .type('{Home}')
+            .get('[name="folder1"]')
+            .should('have.focus')
+            .type('{Home}')
+            .get('[name="folder1"]')
+            .should('have.focus');
+        });
+    });
+
   });
 });
 
