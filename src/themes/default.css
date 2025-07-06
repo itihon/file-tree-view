@@ -22,8 +22,8 @@ file-tree-view {
 ftv-file,
 ftv-folder {
   display: block;
-  overflow: hidden;
-  height: var(--line-height);
+  min-width: 100%;
+  width: max-content;
 }
 
 ftv-file:focus-visible > .label,
@@ -51,6 +51,8 @@ ftv-folder[selected] > .label {
 
 .label {
   display: block;
+  min-width: 100%;
+  width: fit-content;
   height: var(--line-height);
   cursor: pointer;
 }
@@ -63,6 +65,8 @@ ftv-folder[selected] > .label {
 
 .content {
   display: block;
+  overflow: hidden;
+  height: 0;
   padding-left: var(--left-indent);
 }
 
@@ -78,7 +82,7 @@ ftv-folder[expanded] > .label::before {
   content: var(--default-expanded-folder-icon);
 }
 
-ftv-folder[expanded] {
+ftv-folder[expanded] > .content {
   height: fit-content;
 }
 
