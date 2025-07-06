@@ -20,6 +20,9 @@ export type FolderNode = {
   children?: FileOrFolder[];
 } & FileTreeNode;
 
+const preventScroll: FocusOptions = { preventScroll: true };
+const nearest: ScrollIntoViewOptions = { block: 'nearest' };
+
 export default class FileTreeView extends HTMLElement {
   private selectedItem: FTVFile | FTVFolder | null = null;
 
@@ -73,15 +76,15 @@ export default class FileTreeView extends HTMLElement {
 
     if (previousNode) {
       if (previousNode.isFolder()) {
-        this.getLastVisibleNode(previousNode).focus();
+        this.getLastVisibleNode(previousNode).focus(preventScroll);
       } else {
-        previousNode.focus();
+        previousNode.focus(preventScroll);
       }
     } else {
       const containingFolder = currentNode.getContainingFolder();
 
       if (containingFolder) {
-        containingFolder.focus();
+        containingFolder.focus(preventScroll);
       }
     }
   }
@@ -94,15 +97,15 @@ export default class FileTreeView extends HTMLElement {
         if (content.children.length) {
           const firstChild = content.firstElementChild as FTVFile | FTVFolder;
 
-          firstChild.focus();
+          firstChild.focus(preventScroll);
         } else {
-          this.getNextVisibleNode(currentNode).focus();
+          this.getNextVisibleNode(currentNode).focus(preventScroll);
         }
       } else {
-        this.getNextVisibleNode(currentNode).focus();
+        this.getNextVisibleNode(currentNode).focus(preventScroll);
       }
     } else {
-      this.getNextVisibleNode(currentNode).focus();
+      this.getNextVisibleNode(currentNode).focus(preventScroll);
     }
   }
 
@@ -223,6 +226,8 @@ export default class FileTreeView extends HTMLElement {
     });
 
     this.addEventListener('keydown', (event) => {
+      event.preventDefault();
+
       const targetNode =
         event.target === this
           ? (this.firstElementChild as FTVFile | FTVFolder | null)
@@ -247,7 +252,7 @@ export default class FileTreeView extends HTMLElement {
               const containingFolder = node.getContainingFolder();
 
               if (containingFolder) {
-                containingFolder.focus();
+                containingFolder.focus(preventScroll);
               }
             }
           }
@@ -262,7 +267,7 @@ export default class FileTreeView extends HTMLElement {
                   | FTVFolder;
 
                 if (firstChild) {
-                  firstChild.focus();
+                  firstChild.focus(preventScroll);
                 } else {
                   this.focusNext(node);
                 }
@@ -297,6 +302,14 @@ export default class FileTreeView extends HTMLElement {
           }
         }
       }
+    });
+
+    this.addEventListener('focusin', (event) => {
+      const target = event.target as FTVFile | FTVFolder;
+      const label = target.firstElementChild!;
+      const horizontalScroll = this.scrollLeft;
+      label.scrollIntoView(nearest);
+      this.scrollLeft = horizontalScroll;
     });
 
     this.tabIndex = 0;
