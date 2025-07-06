@@ -226,7 +226,9 @@ export default class FileTreeView extends HTMLElement {
     });
 
     this.addEventListener('keydown', (event) => {
-      event.preventDefault();
+      if (event.code !== 'Tab') {
+        event.preventDefault();
+      }
 
       const targetNode =
         event.target === this
