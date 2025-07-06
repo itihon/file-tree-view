@@ -2,6 +2,7 @@ file-tree-view {
   display: block;
   width: 220px;
   height: fit-content;
+  max-height: 100%;
   overflow: auto;
   background-color: var(--background-color);
   font-family: Helvetica;
