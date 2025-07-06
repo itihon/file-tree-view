@@ -23,6 +23,16 @@ export type FolderNode = {
 const preventScroll: FocusOptions = { preventScroll: true };
 const nearest: ScrollIntoViewOptions = { block: 'nearest' };
 
+const sortBy = (field: 'name' | 'type', order: 'asc' | 'desc' = 'desc') =>
+  order === 'desc'
+    ? (a: FileOrFolder, b: FileOrFolder) =>
+        a[field] < b[field] ? -1 : a[field] > a[field] ? 1 : 0
+    : (a: FileOrFolder, b: FileOrFolder) =>
+        a[field] > b[field] ? -1 : a[field] < a[field] ? 1 : 0;
+
+const sortByName = sortBy('name');
+const sortByType = sortBy('type', 'asc');
+
 export default class FileTreeView extends HTMLElement {
   private selectedItem: FTVFile | FTVFolder | null = null;
 
@@ -113,6 +123,7 @@ export default class FileTreeView extends HTMLElement {
     tree: FolderNode,
     root: FolderOrFileTreeView = this,
     withRootNode = true,
+    sort = false,
   ) {
     const { children, name } = tree;
     let currentNode: FolderOrFileTreeView = root;
@@ -126,16 +137,18 @@ export default class FileTreeView extends HTMLElement {
     }
 
     if (children) {
-      children.forEach((child) => {
-        const { type, name } = child;
+      (sort ? children.sort(sortByName).sort(sortByType) : children).forEach(
+        (child) => {
+          const { type, name } = child;
 
-        if (type === 'file') {
-          const file = new FTVFile(name);
-          currentNode.addContent([file]);
-        } else {
-          this.load(child, currentNode);
-        }
-      });
+          if (type === 'file') {
+            const file = new FTVFile(name);
+            currentNode.addContent([file]);
+          } else {
+            this.load(child, currentNode);
+          }
+        },
+      );
     }
   }
 
