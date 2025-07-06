@@ -270,8 +270,6 @@ export default class FileTreeView extends HTMLElement {
 
                 if (firstChild) {
                   firstChild.focus(preventScroll);
-                } else {
-                  this.focusNext(node);
                 }
               }
             }

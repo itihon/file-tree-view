@@ -457,7 +457,20 @@ describe('file-tree-view', () => {
             .should('have.focus')
             .type('{rightArrow}')
             .get('[name="file3"]')
-            .should('have.focus');
+            .should('have.focus')
+            .get('[name="folder3"]').focus()
+            .should('have.focus')
+            .should('not.have.attr', 'expanded')
+            .get('[name="folder3"]')
+            .type('{rightArrow}')
+            .should('have.focus')
+            .should('have.attr', 'expanded')
+            .get('[name="folder3"]')
+            .type('{rightArrow}')
+            .should('have.focus')
+            .get('[name="folder3"]')
+            .type('{rightArrow}')
+            .should('have.focus')
         });
     });
 
