@@ -14,6 +14,17 @@
     "url": "https://github.com/itihon/file-tree-view/issues"
   },
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "browser": "dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [ "dist" ],
+    "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
