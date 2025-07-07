@@ -13,6 +13,8 @@
 
 > File tree view web component with drag-and-drop feature.
 
+## 🕑 Developing...
+
 ## Install
 
 ``` shell
@@ -38,14 +40,18 @@ import { fileTreeView } from 'file-tree-view'
 </file-tree-icons>
 
 <file-tree-view id="file_explorer" theme="/path/to/theme/">
-  <ftv-folder name="folder name1">
-    
-    <ftv-file name="filename.ext"></ftv-file>
-
-    <ftv-folder name="folder name2">
-      <ftv-file name="filename.ext"></ftv-file>
-    </ftv-folder>
-
+  <ftv-folder name="folder1">
+      <ftv-file name="file1"></ftv-file>
+      <ftv-folder name="folder2">
+          <ftv-file name="file3"></ftv-file>
+          <ftv-file name="file4"></ftv-file>
+          <ftv-folder name="folder3"></ftv-folder>
+      </ftv-folder>
+      <ftv-folder name="folder4">
+          <ftv-file name="file5"></ftv-file>
+          <ftv-file name="file6"></ftv-file>
+          <ftv-folder name="folder5"></ftv-folder>
+      </ftv-folder>
   </ftv-folder>
 </file-tree-view>
 ```
@@ -126,6 +132,7 @@ fileTree.selectedItems
 
 #### Features
 
+- [ ] make it a general tree view component, not a file tree view
 - [ ] themes
 - [ ] tab control
 - [x] keyboard navigation: [x]up, [x]down, [x]left, [x]right, [x]Home, [x]End, Tabindex for main container
@@ -136,6 +143,17 @@ fileTree.selectedItems
 - [ ] drag and drop
 - [ ] context menu
 - [ ] icons for specific file types
+- [ ] loading the first level of file system, and then loading every additional folder level by clicking on it
+- [ ] fs adapter that reflects file system state
+- [ ] sorting on [x]load, on [ ]adding content, on [ ]file/folder creation 
+
+## Issues
+
+
+## Refactor
+
+- [ ] Change type "folder" to "directory" to follow File system API convention
+- [ ] Consider changing isExpanded() method to getter. It may allow to check an instance if is folder or file.
 
 ## Related
 
