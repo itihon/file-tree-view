@@ -31,7 +31,7 @@ import { fileTreeView } from 'file-tree-view'
 ### In HTML
 
 ``` html
-<script type="module" src="/path/to/file-tree-view.js">
+<script type="module" src="/path/to/file-tree-view.js"></script>
 
 <file-tree-view id="file_explorer" theme="/path/to/theme/">
   <ftv-folder name="folder1">
