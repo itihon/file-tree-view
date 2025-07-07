@@ -33,12 +33,6 @@ import { fileTreeView } from 'file-tree-view'
 ``` html
 <script type="module" src="/path/to/file-tree-view.js">
 
-<!-- Maybe icons should be defined in the theme ? -->
-<file-tree-icons for="file_explorer">
-  <file-tree-icon type="js" src="/path/to/icon/js.svg"></file-tree-icon>
-  <file-tree-icon type="md" src="/path/to/icon/md.svg"></file-tree-icon>
-</file-tree-icons>
-
 <file-tree-view id="file_explorer" theme="/path/to/theme/">
   <ftv-folder name="folder1">
       <ftv-file name="file1"></ftv-file>
