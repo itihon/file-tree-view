@@ -27,12 +27,15 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "npm run build:bundle && npm run build:types",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:bundle": "vite build",
     "preview": "vite preview",
     "format:check": "prettier {src,test}/**/*.{js,ts,css} --check --no-error-on-unmatched-pattern",
     "format:write": "prettier {src,test}/**/*.{js,ts,css} --write --no-error-on-unmatched-pattern",
     "lint": "eslint",
-    "prepare": "husky"
+    "prepare": "husky",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
