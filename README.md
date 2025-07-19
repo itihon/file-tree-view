@@ -5,8 +5,8 @@
 [![Code Coverage]](https://codecov.io/gh/itihon/file-tree-view)
 [![semantic-release]](https://github.com/semantic-release/semantic-release)
 
-[License]: https://img.shields.io/badge/License-ISC-blue.svg
-[Build Status]: https://github.com/itihon/file-tree-view/actions/workflows/ci.yml/badge.svg
+[License]: https://img.shields.io/badge/License-MIT-blue.svg
+[Build Status]: https://github.com/itihon/file-tree-view/actions/workflows/code-quality-and-test.yml/badge.svg
 [NPM Package]: https://img.shields.io/npm/v/file-tree-view.svg
 [Code Coverage]: https://codecov.io/gh/itihon/file-tree-view/branch/master/graph/badge.svg
 [semantic-release]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
