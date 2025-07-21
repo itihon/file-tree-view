@@ -69,6 +69,13 @@ const visitLocalhost = () => {
 const clearDocumentBody = () => 
   cy.document().then(document => document.body.innerHTML = '');
 
+const applyStyle = (propertyName, value) => 
+  (ftViewCyObj) => {
+    const ftView = ftViewCyObj[0];
+    ftView.style[propertyName] = value;
+    return ftView;
+  };
+
 const constructLoadAppend = (tree) => {
   return clearDocumentBody().then(() => {
     return cy.document().then(document => {
