@@ -1,12 +1,15 @@
 {
   "name": "@itihon/file-tree-view",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "File tree view component based on Web Components API",
   "homepage": "https://itihon.github.io/file-tree-view/",
-  "keywords": ["file-tree", "tree-view"],
+  "keywords": [
+    "file-tree",
+    "tree-view"
+  ],
   "author": "Alexandr Kalabin",
   "license": "MIT",
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/itihon/file-tree-view.git"
   },
@@ -18,8 +21,10 @@
   "module": "dist/index.js",
   "browser": "dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": [ "dist" ],
-    "exports": {
+  "files": [
+    "dist"
+  ],
+  "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
