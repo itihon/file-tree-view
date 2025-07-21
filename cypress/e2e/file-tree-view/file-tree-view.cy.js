@@ -159,6 +159,8 @@ describe('file-tree-view', () => {
         () => {
           return cy
             .get('file-tree-view')
+            .then(applyStyle('height', '100%'))
+            .click() // click on the container itself, shouldn't throw an error
             .contains('folder1').click() // folder label click
 
             .get('[name="folder1"]').should('have.attr', 'expanded') // same folder
@@ -179,7 +181,7 @@ describe('file-tree-view', () => {
             .get('[name="file3"]').click() // file click
             .get('[selected]').should('have.length', 1)
             .should('have.attr', 'name').and('equal', 'file3') // same file
-        }
+        },
       );
     });
 
