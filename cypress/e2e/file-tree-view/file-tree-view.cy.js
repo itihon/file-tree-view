@@ -1,20 +1,6 @@
 import FileTreeView from '../../../src/index';
 import treeStructure from '../../fixtures/1-file-tree-view';
 
-// TODO: expanded and selected when loading from object and html
-
-// test for asyncForeach
-// const asyncArr = [
-//   () => new Promise(res => { setTimeout(res, 500, 1); }),
-//   () => new Promise(res => { setTimeout(res, 3000, 2); }),
-//   () => new Promise(res => { setTimeout(res, 500, 3); }),
-//   () => new Promise(res => { setTimeout(res, 4000, 4); }),
-//   () => new Promise(res => { setTimeout(res, 4000, 5); }),
-// ];
-
-// const cb = console.log;
-// 
-// asyncForeach(asyncArr, cb);
 function asyncForeach(arrayOfAsyncFns = [], eachCb = Function.prototype) {
   let chain = Promise.resolve();
 
