@@ -180,6 +180,10 @@ export default class FileTreeView extends HTMLElement {
   }
 
   addContent(content: FTVFile | FTVFolder) {
+    if (this.firstElementChild) {
+      throw new Error('This tree-view already has a root element.');
+    }
+
     this.appendChild(content);
   }
 
