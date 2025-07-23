@@ -2,28 +2,8 @@ import type FTVFolder from './FTVFolder';
 import FTVRef from './FTVRef';
 
 export default class FTVNode extends FTVRef<FTVNode> {
+  private expandable = false;
   private label: FTVRef<FTVNode> | null = null;
-  private content: FTVRef<FTVNode> | null = null;
-
-  protected addContent(content: [FTVNode] | [] = []) {
-    if (!this.content) {
-      this.createContent(...content);
-    } else {
-      this.content.append(...content);
-    }
-  }
-
-  protected getContent() {
-    return this.content;
-  }
-
-  protected clearContent() {
-    if (this.content) {
-      while (this.content.firstChild) {
-        this.content.firstChild.remove();
-      }
-    }
-  }
 
   private createLabel(nodeName: string = '') {
     this.label = new FTVRef(false);
@@ -32,27 +12,16 @@ export default class FTVNode extends FTVRef<FTVNode> {
     this.setName(nodeName);
   }
 
-  private createContent(...nodes: Node[]) {
-    this.content = new FTVRef(false);
-    this.content.classList.add('content');
-    this.content.append(...nodes);
-    this.appendChild(this.content);
-  }
-
-  constructor(name: string, children: [FTVNode] | [] | undefined = undefined) {
+  constructor(name: string, expandable = false) {
     super(true);
 
     const nodeName = name || this.getAttribute('name') || '';
 
-    // execution order of createContent and createLabel functions must be held
-    if (children) {
-      // by presense of children, the node's type can be defined: folder|file
-      this.createContent(...children, ...this.children);
-    }
     this.createLabel(nodeName);
-
     this.setAttribute('name', nodeName);
+
     this.tabIndex = -1;
+    this.expandable = expandable;
   }
 
   getContainingFolder(): FTVFolder | null {
@@ -113,6 +82,6 @@ export default class FTVNode extends FTVRef<FTVNode> {
   }
 
   isFolder(): this is FTVFolder {
-    return this.content !== null;
+    return this.expandable;
   }
 }
