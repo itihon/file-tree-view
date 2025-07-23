@@ -2,43 +2,34 @@ import FTVNode from './FTVNode.js';
 import FTVRef from './FTVRef.js';
 
 export default class FTVFolder extends FTVNode {
-  private content: FTVRef<FTVNode> | null = null;
+  private content: FTVRef<FTVNode>;
 
   addContent(content: [FTVNode] | [] = []) {
-    if (!this.content) {
-      this.createContent(...content);
-    } else {
-      this.content.append(...content);
-    }
+    this.content.append(...content);
   }
 
-  getContent() {
+  getContent(): FTVRef<FTVNode> {
     return this.content;
   }
 
   clearContent() {
-    if (this.content) {
-      while (this.content.firstChild) {
-        this.content.firstChild.remove();
-      }
+    while (this.content.firstChild) {
+      this.content.firstChild.remove();
     }
-  }
-
-  private createContent(...nodes: Node[]) {
-    this.content = new FTVRef(false);
-    this.content.classList.add('content');
-    this.content.append(...nodes);
-    this.appendChild(this.content);
   }
 
   constructor(name: string, children: [FTVNode] | [] = []) {
     super(name, true);
-    this.createContent(
+
+    this.content = new FTVRef(false);
+    this.content.classList.add('content');
+    this.content.append(
       ...children,
       ...Array.from(this.children).filter(
-        (child) => !(child instanceof FTVRef),
-      ), // filter out the label alreade created in the parend class constructor
+        (child) => !(child instanceof FTVRef), // filter out the label alreade created in the parend class constructor
+      ),
     );
+    this.appendChild(this.content);
   }
 
   isExpanded() {
