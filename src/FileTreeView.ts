@@ -196,7 +196,7 @@ export default class FileTreeView extends HTMLElement {
   }
 
   addNode(path: string, name: string, type: 'file' | 'folder') {
-    const node = path === '/' ? this : this.getNodeByPath(path);
+    const node = path === '/' || path === '' ? this : this.getNodeByPath(path);
 
     if (!node) {
       throw new Error(`Path ${path} not found.`);
@@ -206,7 +206,7 @@ export default class FileTreeView extends HTMLElement {
       throw new Error('This tree-view already has a root element.');
     }
 
-    if (!(node instanceof FTVFolder)) {
+    if (!(node instanceof FTVFolder) && node !== this) {
       throw new Error(`Path ${path} is not a folder.`);
     }
 
