@@ -1,10 +1,11 @@
+import type FTVFile from './FTVFile.js';
 import FTVNode from './FTVNode.js';
 import FTVRef from './FTVRef.js';
 
 export default class FTVFolder extends FTVNode {
   private content: FTVRef<FTVNode>;
 
-  addContent(content: [FTVNode] | [] = []) {
+  addContent(content: [FTVFile | FTVFolder] | [] = []) {
     this.content.append(...content);
   }
 
@@ -18,7 +19,7 @@ export default class FTVFolder extends FTVNode {
     }
   }
 
-  constructor(name: string, children: [FTVNode] | [] = []) {
+  constructor(name: string, children: [FTVFile | FTVFolder] | [] = []) {
     super(name, true);
 
     this.content = new FTVRef(false);
