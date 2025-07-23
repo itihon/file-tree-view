@@ -512,6 +512,73 @@ describe('file-tree-view', () => {
     });
 
   });
+
+  describe('API', () => {
+    it('adds and removes nodes whith addNode() and removeNode()', () => {
+      visitLocalhost();
+
+      const removeNode = (path, name, err) => (res) => {
+        const fileTreeView = res[0];
+
+        if (err) {
+          expect(() => fileTreeView.removeNode(path + '/' + name)).throw(err);
+        }
+        else {
+          fileTreeView.removeNode(path + '/' + name);
+        }
+
+        return cy
+          .get('file-tree-view')
+          .should('not.have.descendants', `[name=${name}]`);
+      };
+
+      const addNode = (path, name, type) => (res) => {
+        const fileTreeView = res[0];
+
+        fileTreeView.addNode(path, name, type);
+
+        return cy
+          .get('file-tree-view')
+          .should('have.descendants', `[name=${name}]`);
+      };
+
+      const throwWhenAdding = (path, name, type, err) => (res) => {
+        const fileTreeView = res[0];
+
+        expect(() => fileTreeView.addNode(path, name, type)).throw(err);
+
+        return cy
+          .get('file-tree-view')
+          .should('not.have.descendants', `[name=${name}]`);
+      };
+
+      asyncForeach(
+        [
+          () => constructLoadAppend(treeStructure),
+          () => constructAppendLoad(treeStructure),
+          () => markupLoad(treeStructure),
+        ],
+        () => {
+          return cy
+            .get('file-tree-view')
+            .then(removeNode('', 'folder1'))
+            .then(addNode('/', 'folder1', 'folder'))
+            .get('file-tree-view')
+            .then(removeNode('/', 'folder1'))
+            .then(addNode('', 'folder1', 'folder'))
+            .then(throwWhenAdding('', 'folder2', 'folder', 'This tree-view already has a root element.'))
+            .then(throwWhenAdding('folder1/folder2', 'folder3', 'folder', 'Path folder1/folder2 not found.'))
+            .then(addNode('folder1', 'file1', 'file'))
+            .then(throwWhenAdding('folder1/file1', 'folder3', 'folder', 'Path folder1/file1 is not a folder.'))
+            .then(addNode('folder1', 'folder2', 'folder'))
+            .then(addNode('/folder1/folder2', 'folder3', 'folder'))
+            .then(removeNode('folder1/folder2/folder3', 'folder4', 'Path folder1/folder2/folder3/folder4 not found.'))
+            .then(removeNode('/folder1/folder2/', 'folder3'))
+            .then(removeNode('folder1', 'folder2'))
+            .then(removeNode('folder1', 'file1'))
+        });
+    });
+  });
 });
 
 /**
