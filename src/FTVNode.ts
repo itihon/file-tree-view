@@ -3,21 +3,17 @@ import FTVRef from './FTVRef';
 
 export default class FTVNode extends FTVRef<FTVNode> {
   private expandable = false;
-  private label: FTVRef<FTVNode> | null = null;
-
-  private createLabel(nodeName: string = '') {
-    this.label = new FTVRef(false);
-    this.label.classList.add('label', 'noselect');
-    this.insertAdjacentElement('afterbegin', this.label);
-    this.setName(nodeName);
-  }
+  private label: FTVRef<FTVNode>;
 
   constructor(name: string, expandable = false) {
     super(true);
 
     const nodeName = name || this.getAttribute('name') || '';
 
-    this.createLabel(nodeName);
+    this.label = new FTVRef(false);
+    this.label.classList.add('label', 'noselect');
+    this.insertAdjacentElement('afterbegin', this.label);
+    this.setName(nodeName);
     this.setAttribute('name', nodeName);
 
     this.tabIndex = -1;
@@ -34,8 +30,8 @@ export default class FTVNode extends FTVRef<FTVNode> {
     return null;
   }
 
-  getName() {
-    if (this.label) return this.label.textContent;
+  getName(): string {
+    return this.label.textContent!;
   }
 
   isSelected() {
@@ -62,11 +58,7 @@ export default class FTVNode extends FTVRef<FTVNode> {
     if (name.trim().length === 0) {
       throw new Error('File or folder name cannot be empty');
     }
-    if (!this.label) {
-      this.createLabel(name);
-    } else {
-      this.label.textContent = name;
-    }
+    this.label.textContent = name;
   }
 
   getRelativePath() {
