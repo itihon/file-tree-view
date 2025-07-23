@@ -130,7 +130,7 @@ export default class FileTreeView extends HTMLElement {
 
     if (withRootNode) {
       const folder = new FTVFolder(name);
-      currentNode.addContent([folder]);
+      currentNode.addContent(folder);
       currentNode = folder;
     } else {
       currentNode = root;
@@ -143,7 +143,7 @@ export default class FileTreeView extends HTMLElement {
 
           if (type === 'file') {
             const file = new FTVFile(name);
-            currentNode.addContent([file]);
+            currentNode.addContent(file);
           } else {
             this.load(child, currentNode);
           }
@@ -173,8 +173,8 @@ export default class FileTreeView extends HTMLElement {
     return currentFolder;
   }
 
-  addContent(content: [FTVFile | FTVFolder] | [] = []) {
-    this.append(...content);
+  addContent(content: FTVFile | FTVFolder) {
+    this.appendChild(content);
   }
 
   addNode(path: string, name: string, type: 'file' | 'folder') {
@@ -194,12 +194,12 @@ export default class FileTreeView extends HTMLElement {
 
     if (type === 'file') {
       const file = new FTVFile(name);
-      node.addContent([file]);
+      node.addContent(file);
     }
 
     if (type === 'folder') {
       const folder = new FTVFolder(name);
-      node.addContent([folder]);
+      node.addContent(folder);
     }
   }
 

@@ -5,8 +5,14 @@ import FTVRef from './FTVRef.js';
 export default class FTVFolder extends FTVNode {
   private content: FTVRef<FTVNode>;
 
-  addContent(content: [FTVFile | FTVFolder] | [] = []) {
-    this.content.append(...content);
+  addContent(
+    content: FTVFile | FTVFolder | Array<FTVFile | FTVFolder> | [] = [],
+  ) {
+    if (Array.isArray(content)) {
+      this.content.append(...content);
+    } else {
+      this.content.appendChild(content);
+    }
   }
 
   getContent(): FTVRef<FTVNode> {
