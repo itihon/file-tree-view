@@ -162,8 +162,10 @@ export default class FileTreeView extends HTMLElement {
     const folderNames = path.split('/');
     for (const folderName of folderNames) {
       if (folderName) {
-        if (currentNode) {
-          currentNode = currentNode.querySelector(`[name="${folderName}"]`) as
+        if (currentNode instanceof FTVFolder) {
+          currentNode = currentNode
+            .getContent()
+            .querySelector(`:scope > [name="${folderName}"]`) as
             | FTVFile
             | FTVFolder
             | null;
