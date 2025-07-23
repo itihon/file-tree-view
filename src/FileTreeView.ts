@@ -156,21 +156,27 @@ export default class FileTreeView extends HTMLElement {
     return this.selectedItem;
   }
 
-  getNodeByPath(path: string): FileTreeView | FTVFile | FTVFolder | null {
-    let currentFolder: FileTreeView | FTVFile | FTVFolder | null = this;
+  getNodeByPath(path: string): FTVFile | FTVFolder | null {
+    let currentNode: FTVFile | FTVFolder | null = null;
 
     const folderNames = path.split('/');
     for (const folderName of folderNames) {
       if (folderName) {
-        if (currentFolder) {
-          currentFolder = currentFolder.querySelector(
-            `[name="${folderName}"]`,
-          ) as FTVFile | FTVFolder | null;
+        if (currentNode) {
+          currentNode = currentNode.querySelector(`[name="${folderName}"]`) as
+            | FTVFile
+            | FTVFolder
+            | null;
+        } else {
+          currentNode = this.querySelector(`[name="${folderName}"]`) as
+            | FTVFile
+            | FTVFolder
+            | null;
         }
       }
     }
 
-    return currentFolder;
+    return currentNode;
   }
 
   addContent(content: FTVFile | FTVFolder) {
@@ -178,7 +184,7 @@ export default class FileTreeView extends HTMLElement {
   }
 
   addNode(path: string, name: string, type: 'file' | 'folder') {
-    const node = this.getNodeByPath(path);
+    const node = path === '/' ? this : this.getNodeByPath(path);
 
     if (!node) {
       throw new Error(`Path ${path} not found.`);
@@ -206,7 +212,7 @@ export default class FileTreeView extends HTMLElement {
   removeNode(path: string) {
     const node = this.getNodeByPath(path);
 
-    if (!node || node === this) {
+    if (!node) {
       throw new Error(`Path ${path} not found.`);
     }
 
