@@ -168,10 +168,16 @@ export default class FileTreeView extends HTMLElement {
             | FTVFolder
             | null;
         } else {
-          currentNode = this.querySelector(`[name="${folderName}"]`) as
-            | FTVFile
+          const rootNode = this.firstElementChild as
+            | FTVFolder
             | FTVFolder
             | null;
+
+          if (rootNode) {
+            if (rootNode.getAttribute('name') === folderName) {
+              currentNode = rootNode;
+            } else break;
+          } else break;
         }
       }
     }
