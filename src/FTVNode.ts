@@ -4,6 +4,19 @@ import FTVRef from './FTVRef';
 export default class FTVNode extends FTVRef<FTVNode> {
   private expandable = false;
   private label: FTVRef<FTVNode>;
+  private path = '';
+
+  private initPath() {
+    let node: FTVNode = this;
+    let path = '';
+
+    while (node instanceof FTVNode) {
+      path = '/' + node.getName() + path;
+      node = node.getContainingFolder() as FTVNode;
+    }
+
+    return path;
+  }
 
   constructor(name: string, expandable = false) {
     super(true);
@@ -18,6 +31,10 @@ export default class FTVNode extends FTVRef<FTVNode> {
 
     this.tabIndex = -1;
     this.expandable = expandable;
+  }
+
+  connectedCallback() {
+    this.path = this.initPath();
   }
 
   getContainingFolder(): FTVFolder | null {
@@ -61,16 +78,8 @@ export default class FTVNode extends FTVRef<FTVNode> {
     this.label.textContent = name;
   }
 
-  getRelativePath() {
-    let node: FTVNode = this;
-    let path = '';
-
-    while (node instanceof FTVNode) {
-      path = '/' + node.getName() + path;
-      node = node.getContainingFolder() as FTVNode;
-    }
-
-    return path;
+  getRelativePath(): string {
+    return this.path;
   }
 
   isFolder(): this is FTVFolder {
