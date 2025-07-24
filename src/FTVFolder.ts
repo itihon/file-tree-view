@@ -2,8 +2,30 @@ import type FTVFile from './FTVFile.js';
 import FTVNode from './FTVNode.js';
 import FTVRef from './FTVRef.js';
 
+interface FTVFolderToggleEventDetail {
+  path: string;
+}
+
+declare global {
+  interface HTMLElementEventMap {
+    expand: CustomEvent<FTVFolderToggleEventDetail>;
+    collapse: CustomEvent<FTVFolderToggleEventDetail>;
+  }
+}
+
 export default class FTVFolder extends FTVNode {
   private content: FTVRef<FTVNode>;
+
+  private dispatch(type: string) {
+    this.dispatchEvent(
+      new CustomEvent(type, {
+        bubbles: true,
+        detail: {
+          path: this.getRelativePath(),
+        },
+      }),
+    );
+  }
 
   addContent(
     content: FTVFile | FTVFolder | Array<FTVFile | FTVFolder> | [] = [],
@@ -44,15 +66,21 @@ export default class FTVFolder extends FTVNode {
   }
 
   toggleExpanded() {
-    this.toggleAttribute('expanded');
+    if (this.toggleAttribute('expanded')) {
+      this.dispatch('expand');
+    } else {
+      this.dispatch('collapse');
+    }
   }
 
   expand() {
     this.toggleAttribute('expanded', true);
+    this.dispatch('expand');
   }
 
   collapse() {
     this.toggleAttribute('expanded', false);
+    this.dispatch('collapse');
   }
 }
 
