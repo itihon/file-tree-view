@@ -67,7 +67,7 @@ export default class FTVNode extends FTVRef<FTVNode> {
     this.toggleAttribute('selected', false);
   }
 
-  isFocused() {
+  isFocused(): boolean {
     return document.activeElement === this;
   }
 
