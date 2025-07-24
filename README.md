@@ -100,12 +100,12 @@ context menu displayed
 
 ``` js
 fileTree.addEventListener('expand', (e) => {
-  const path = e.detail.path;
+  const folder = e.target;
   // ...
 });
 
 fileTree.addEventListener('collapse', (e) => {
-  const path = e.detail.path;
+  const folder = e.target;
   // ...
 });
 ```
