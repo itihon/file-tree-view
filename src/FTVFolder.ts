@@ -61,7 +61,7 @@ export default class FTVFolder extends FTVNode {
     this.appendChild(this.content);
   }
 
-  isExpanded() {
+  isExpanded(): boolean {
     return this.hasAttribute('expanded');
   }
 
