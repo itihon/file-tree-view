@@ -579,6 +579,80 @@ describe('file-tree-view', () => {
         });
     });
   });
+
+  describe('Events', () => {
+    it.only('fires "expand" and "collapse" events', () => {
+      visitLocalhost();
+
+      const listeners = new Set();
+
+      const addExpandListenerOnce = (path) => res => {
+        /** @type {FileTreeView} */
+        const ftView = res[0];
+        const checkPath = e => { 
+          expect(e.detail.path).eq(path); 
+          listeners.delete(checkPath) 
+        };
+
+        listeners.add(checkPath);
+        ftView.addEventListener('expand', checkPath, { once: true });
+
+        return ftView;
+      };
+      
+      const addCollapseListenerOnce = (path) => res => {
+        /** @type {FileTreeView} */
+        const ftView = res[0];
+        const checkPath = e => { 
+          expect(e.detail.path).eq(path); 
+          listeners.delete(checkPath) 
+        };
+
+        listeners.add(checkPath);
+        ftView.addEventListener('collapse', checkPath, { once: true });
+
+        return ftView;
+      };
+
+      const expectListenerAdded = () => { expect(listeners.size).eq(1); };
+      const expectAllListenersCalled = () => { expect(listeners.size).eq(0); };
+
+      asyncForeach(
+        [
+          () => constructLoadAppend(treeStructure),
+          () => constructAppendLoad(treeStructure),
+          () => markupLoad(treeStructure),
+        ],
+        () => {
+          return cy
+            .get('file-tree-view')
+            .then(addExpandListenerOnce('/folder1'))
+            .then(expectListenerAdded)
+            .get('[name=folder1]')
+            .type('{rightArrow}') // right arrow expand
+
+            .get('file-tree-view')
+            .then(addExpandListenerOnce('/folder1/folder2'))
+            .then(expectListenerAdded)
+            .get('[name=folder2]')
+            .click() // click expand
+
+            .get('file-tree-view')
+            .then(addCollapseListenerOnce('/folder1/folder2'))
+            .then(expectListenerAdded)
+            .contains('folder2')
+            .click() // click collapse
+            
+            .get('file-tree-view')
+            .then(addCollapseListenerOnce('/folder1'))
+            .then(expectListenerAdded)
+            .contains('folder1')
+            .type('{leftArrow}') // left arrow collapse
+
+            .then(expectAllListenersCalled);
+        });
+    });
+  });
 });
 
 /**
