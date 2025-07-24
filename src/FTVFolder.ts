@@ -2,30 +2,17 @@ import type FTVFile from './FTVFile.js';
 import FTVNode from './FTVNode.js';
 import FTVRef from './FTVRef.js';
 
-interface FTVFolderToggleEventDetail {
-  path: string;
-}
-
 declare global {
   interface HTMLElementEventMap {
-    expand: CustomEvent<FTVFolderToggleEventDetail>;
-    collapse: CustomEvent<FTVFolderToggleEventDetail>;
+    expand: CustomEvent<undefined>;
+    collapse: CustomEvent<undefined>;
   }
 }
+
+const eventOpts = { bubbles: true };
 
 export default class FTVFolder extends FTVNode {
   private content: FTVRef<FTVNode>;
-
-  private dispatch(type: string) {
-    this.dispatchEvent(
-      new CustomEvent(type, {
-        bubbles: true,
-        detail: {
-          path: this.getRelativePath(),
-        },
-      }),
-    );
-  }
 
   addContent(
     content: FTVFile | FTVFolder | Array<FTVFile | FTVFolder> | [] = [],
@@ -67,20 +54,20 @@ export default class FTVFolder extends FTVNode {
 
   toggleExpanded() {
     if (this.toggleAttribute('expanded')) {
-      this.dispatch('expand');
+      this.dispatchEvent(new CustomEvent('expand', eventOpts));
     } else {
-      this.dispatch('collapse');
+      this.dispatchEvent(new CustomEvent('collapse', eventOpts));
     }
   }
 
   expand() {
     this.toggleAttribute('expanded', true);
-    this.dispatch('expand');
+    this.dispatchEvent(new CustomEvent('expand', eventOpts));
   }
 
   collapse() {
     this.toggleAttribute('expanded', false);
-    this.dispatch('collapse');
+    this.dispatchEvent(new CustomEvent('collapse', eventOpts));
   }
 }
 

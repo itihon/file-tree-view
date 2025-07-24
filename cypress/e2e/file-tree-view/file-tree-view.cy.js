@@ -581,7 +581,7 @@ describe('file-tree-view', () => {
   });
 
   describe('Events', () => {
-    it.only('fires "expand" and "collapse" events', () => {
+    it('fires "expand" and "collapse" events', () => {
       visitLocalhost();
 
       const listeners = new Set();
@@ -590,7 +590,7 @@ describe('file-tree-view', () => {
         /** @type {FileTreeView} */
         const ftView = res[0];
         const checkPath = e => { 
-          expect(e.detail.path).eq(path); 
+          expect(e.target.getRelativePath()).eq(path); 
           listeners.delete(checkPath) 
         };
 
@@ -604,7 +604,7 @@ describe('file-tree-view', () => {
         /** @type {FileTreeView} */
         const ftView = res[0];
         const checkPath = e => { 
-          expect(e.detail.path).eq(path); 
+          expect(e.target.getRelativePath()).eq(path); 
           listeners.delete(checkPath) 
         };
 
