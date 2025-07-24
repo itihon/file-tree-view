@@ -99,8 +99,14 @@ context menu displayed
 #### Events
 
 ``` js
-fileTree.addEventListener('change', () => {
+fileTree.addEventListener('expand', (e) => {
+  const path = e.detail.path;
+  // ...
+});
 
+fileTree.addEventListener('collapse', (e) => {
+  const path = e.detail.path;
+  // ...
 });
 ```
 
