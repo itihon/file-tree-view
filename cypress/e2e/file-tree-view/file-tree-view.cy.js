@@ -511,6 +511,70 @@ describe('file-tree-view', () => {
         });
     });
 
+    it('retains expanded folders after parent folder gets cleared', () => {
+      visitLocalhost();
+
+      let listenerCallsCount = 0;
+
+      asyncForeach(
+        [
+          () => markupLoad(treeStructure),
+          () => constructLoadAppend(treeStructure),
+          () => constructAppendLoad(treeStructure),
+        ],
+        () => {
+          return cy
+            .get('[name="folder1"]').click()
+            .get('[name="folder2"]').click()
+            .get('[name="folder3"]').click()
+            .get('[name="folder2"]')
+            .contains('folder2').click() // close
+            .get('[name="folder2"]').then(([folder]) => folder.clearContent())
+            .get('file-tree-view').then(([ftView]) => {
+              ftView.addEventListener('expand', e => {
+                listenerCallsCount--;
+                expect(e.target.getAttribute('name')).eq('folder3');
+              }, { once: true });
+              listenerCallsCount++;
+            })
+            .get('file-tree-view').then(([ftView]) => {
+              ftView.addNode('folder1/folder2', 'file3', 'file');
+              ftView.addNode('folder1/folder2', 'file4', 'file');
+              ftView.addNode('folder1/folder2', 'folder3', 'folder');
+            })
+            .get('[name="folder2"]').click() // open
+            .get('[name="folder3"]')
+            .should('have.attr', 'expanded')
+            .get('[name="folder1"]')
+            .contains('folder1').click() // close
+            .get('[name="folder1"]').then(([folder]) => folder.clearContent())
+            .get('file-tree-view').then(([ftView]) => {
+              ftView.addEventListener('expand', e => {
+                listenerCallsCount--;
+                expect(e.target.getAttribute('name')).eq('folder2');
+
+                ftView.addEventListener('expand', e => {
+                  listenerCallsCount--;
+                  expect(e.target.getAttribute('name')).eq('folder3');
+                }, { once: true });
+                listenerCallsCount++;
+
+              }, { once: true });
+              listenerCallsCount++;
+            })
+            .get('file-tree-view').then(([ftView]) => {
+              ftView.load(treeStructure, ftView.firstElementChild, false, false);
+            })
+            .wait(10)
+            .get('[name="folder1"]').click() // open
+            .get('[name="folder2"]')
+            .should('have.attr', 'expanded')
+            .get('[name="folder3"]')
+            .should('have.attr', 'expanded')
+            .then(() => { expect(listenerCallsCount).eq(0) });
+        });
+    });
+
   });
 
   describe('API', () => {
