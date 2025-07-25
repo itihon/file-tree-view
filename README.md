@@ -33,10 +33,10 @@ import { fileTreeView } from 'file-tree-view'
 ``` html
 <script type="module" src="/path/to/file-tree-view.js"></script>
 
-<file-tree-view id="file_explorer" theme="/path/to/theme/">
-  <ftv-folder name="folder1">
+<file-tree-view id="file_explorer">
+  <ftv-folder name="folder1" expanded>
       <ftv-file name="file1"></ftv-file>
-      <ftv-folder name="folder2">
+      <ftv-folder name="folder2" expanded>
           <ftv-file name="file3"></ftv-file>
           <ftv-file name="file4"></ftv-file>
           <ftv-folder name="folder3"></ftv-folder>
@@ -134,7 +134,7 @@ fileTree.selectedItems
 
 - [ ] make it a general tree view component, not a file tree view
 - [ ] themes
-- [ ] tab control
+- [x] tab control
 - [x] keyboard navigation: [x]up, [x]down, [x]left, [x]right, [x]Home, [x]End, Tabindex for main container
 - [x] hover indication
 - [ ] multiple selection
@@ -143,9 +143,10 @@ fileTree.selectedItems
 - [ ] drag and drop
 - [ ] context menu
 - [ ] icons for specific file types
-- [ ] loading the first level of file system, and then loading every additional folder level by clicking on it
+- [x] loading the first level of file system, and then loading every additional folder level by clicking on it (possible with the expande/collabse events)
 - [ ] fs adapter that reflects file system state
 - [ ] sorting on [x]load, on [ ]adding content, on [ ]file/folder creation 
+- [x] remember expanded child folders when a parent folder gets cleared
 
 ## Issues
 
@@ -162,3 +163,9 @@ TODO
 ## Acknowledgments
 
 TODO
+
+## TODO
+
+- the remembering expanded folders feature 
+  - probably should be deactivatable 
+  - when adding nodes with methods addNode(), addContent() probably should be optional
