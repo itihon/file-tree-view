@@ -34,6 +34,8 @@ export default class FTVNode extends FTVRef<FTVNode> {
   }
 
   connectedCallback() {
+    super.connectedCallback();
+
     this.path = this.initPath();
   }
 
