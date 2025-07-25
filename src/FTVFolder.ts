@@ -34,6 +34,10 @@ export default class FTVFolder extends FTVNode {
     }
   }
 
+  get length() {
+    return this.content.children.length;
+  }
+
   constructor(name: string, children: [FTVFile | FTVFolder] | [] = []) {
     super(name, true);
 
