@@ -65,13 +65,17 @@ export default class FTVFolder extends FTVNode {
   }
 
   expand() {
-    this.toggleAttribute('expanded', true);
-    this.dispatchEvent(new CustomEvent('expand', eventOpts));
+    if (!this.isExpanded()) {
+      this.toggleAttribute('expanded', true);
+      this.dispatchEvent(new CustomEvent('expand', eventOpts));
+    }
   }
 
   collapse() {
-    this.toggleAttribute('expanded', false);
-    this.dispatchEvent(new CustomEvent('collapse', eventOpts));
+    if (this.isExpanded()) {
+      this.toggleAttribute('expanded', false);
+      this.dispatchEvent(new CustomEvent('collapse', eventOpts));
+    }
   }
 }
 
