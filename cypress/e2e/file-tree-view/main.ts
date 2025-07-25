@@ -54,11 +54,11 @@ openFolderBtn.addEventListener('click', async () => {
   fileTreeView.load(tree, undefined, undefined, true);
 });
 
-fileTreeView.addEventListener('click', async event => {
-  const selectedItem = fileTreeView.getSelectedItem();
+fileTreeView.addEventListener('expand', async event => {
+  const folder = event.target;
 
-  if (selectedItem instanceof FTVFolder) {
-    const path = selectedItem.getRelativePath();
+  if (folder instanceof FTVFolder && folder.length === 0) {
+    const path = folder.getRelativePath();
     const dirNames = path.substring(1).split('/');
     let dirHandle:FileSystemDirectoryHandle = directoryHandle;
 
@@ -67,13 +67,25 @@ fileTreeView.addEventListener('click', async event => {
       
       dirHandle = await dirHandle.getDirectoryHandle(dirName);
     }
-   
+
     if (dirHandle.name !== directoryHandle.name) {
       const tree = await treeFromDir(dirHandle);
       requestAnimationFrame(() => {
-        selectedItem.clearContent();
-        fileTreeView.load(tree, selectedItem, false, true);
+        fileTreeView.load(tree, folder, false, true);
       });
     }
+    else {
+      const tree = await treeFromDir(directoryHandle);
+      requestAnimationFrame(() => {
+        fileTreeView.load(tree, folder, false, true);
+      });
+    }
+  }
+});
+
+fileTreeView.addEventListener('collapse', event => {
+  const folder = event.target;
+  if (folder instanceof FTVFolder) {
+    folder.clearContent();
   }
 });
