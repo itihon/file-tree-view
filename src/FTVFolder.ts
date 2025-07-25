@@ -1,6 +1,8 @@
+import type FileTreeView from './FileTreeView.js';
 import type FTVFile from './FTVFile.js';
 import FTVNode from './FTVNode.js';
 import FTVRef from './FTVRef.js';
+import stateRegistry from './StateRegistry.js';
 
 declare global {
   interface HTMLElementEventMap {
@@ -10,6 +12,39 @@ declare global {
 }
 
 const eventOpts = { bubbles: true };
+
+function getExpandedState(
+  container: FileTreeView,
+  path: string,
+): boolean | undefined {
+  const states = stateRegistry.get(container);
+
+  if (states) {
+    const state = states.get('expanded');
+
+    if (state) {
+      return state.get(path);
+    }
+  }
+}
+
+function saveExpandedState(
+  container: FileTreeView,
+  path: string,
+  value: boolean,
+): boolean {
+  const states = stateRegistry.get(container);
+
+  if (states) {
+    const state = states.get('expanded');
+
+    if (state) {
+      state.set(path, value);
+      return true;
+    }
+  }
+  return false;
+}
 
 export default class FTVFolder extends FTVNode {
   private content: FTVRef<FTVNode>;
@@ -50,6 +85,34 @@ export default class FTVFolder extends FTVNode {
       ),
     );
     this.appendChild(this.content);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    if (this.isExpanded()) return; // component was created with the attribute "expanded" in html markup
+
+    const container = this.getTreeViewContainer();
+    const path = this.getRelativePath();
+
+    if (container) {
+      if (getExpandedState(container, path)) {
+        this.expand();
+      } else {
+        this.collapse();
+      }
+    }
+  }
+
+  disconnectedCallback() {
+    const container = this.getTreeViewContainer();
+    const path = this.getRelativePath();
+
+    if (container) {
+      saveExpandedState(container, path, this.isExpanded());
+    }
+
+    super.disconnectedCallback();
   }
 
   isExpanded(): boolean {

@@ -1,6 +1,7 @@
 import FTVFile from './FTVFile.js';
 import FTVFolder from './FTVFolder.js';
 import './themes/default.css';
+import stateRegistry from './StateRegistry.js';
 
 type FileTreeNode = {
   name: string;
@@ -229,6 +230,12 @@ export default class FileTreeView extends HTMLElement {
     }
 
     node.remove();
+  }
+
+  connectedCallback() {
+    if (!stateRegistry.has(this)) {
+      stateRegistry.set(this, stateRegistry.createStates(['expanded']));
+    }
   }
 
   constructor() {
