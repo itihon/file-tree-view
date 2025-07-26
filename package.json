@@ -32,9 +32,11 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:bundle && npm run build:types",
+    "build": "npm run build:bundle && npm run build:types && npm run gen-docs && npm run embed-docs",
     "build:types": "tsc --emitDeclarationOnly",
     "build:bundle": "vite build",
+    "gen-docs": "node scripts/generate-flat-docs.js",
+    "embed-docs": "node scripts/embed-flat-docs.js",
     "preview": "vite preview",
     "format:check": "prettier {src,test}/**/*.{js,ts,css} --check --no-error-on-unmatched-pattern",
     "format:write": "prettier {src,test}/**/*.{js,ts,css} --write --no-error-on-unmatched-pattern",
@@ -44,6 +46,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
+    "@microsoft/api-extractor": "^7.52.9",
+    "@microsoft/api-extractor-model": "^7.30.7",
     "@types/wicg-file-system-access": "^2023.10.6",
     "cypress": "^14.5.0",
     "cypress-vite": "^1.6.0",
