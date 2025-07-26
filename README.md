@@ -1,13 +1,13 @@
 # file-tree-view
-[![License][]](https://opensource.org/licenses/ISC)
-[![Build Status]](https://github.com/itihon/file-tree-view/actions/workflows/ci.yml)
-[![NPM Package]](https://npmjs.org/package/file-tree-view)
+[![License][]](https://opensource.org/licenses/MIT)
+[![Build Status]](https://github.com/itihon/file-tree-view/actions/workflows/code-quality-and-test.yml)
+[![NPM Package]](https://npmjs.org/package/@itithon/file-tree-view)
 [![Code Coverage]](https://codecov.io/gh/itihon/file-tree-view)
 [![semantic-release]](https://github.com/semantic-release/semantic-release)
 
 [License]: https://img.shields.io/badge/License-MIT-blue.svg
 [Build Status]: https://github.com/itihon/file-tree-view/actions/workflows/code-quality-and-test.yml/badge.svg
-[NPM Package]: https://img.shields.io/npm/v/file-tree-view.svg
+[NPM Package]: https://img.shields.io/npm/v/@itihon/file-tree-view.svg
 [Code Coverage]: https://codecov.io/gh/itihon/file-tree-view/branch/master/graph/badge.svg
 [semantic-release]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
 
@@ -23,15 +23,10 @@ npm install @itihon/file-tree-view
 
 ## Use
 
-``` typescript
-import { fileTreeView } from 'file-tree-view'
-// TODO: describe usage
-```
-
 ### In HTML
 
 ``` html
-<script type="module" src="/path/to/file-tree-view.js"></script>
+<script type="module" src="/path/to/file-tree-view"></script>
 
 <file-tree-view id="file_explorer">
   <ftv-folder name="folder1" expanded>
@@ -69,6 +64,66 @@ const fileTree = document.getElementById('file_explorer');
 ```
 
 <!-- embed-api-docs-start -->
+## API
+
+### class `FileTreeView`
+
+```ts
+export default class FileTreeView extends HTMLElement  {
+  addContent(content: FTVFile | FTVFolder): void;
+  addNode(path: string, name: string, type: 'file' | 'folder'): void;
+  getNodeByPath(path: string): FTVFile | FTVFolder | null;
+  getSelectedItem(): FTVFolder | FTVFile | null;
+  load(tree: FolderNode, root?: FolderOrFileTreeView, withRootNode?: boolean, sort?: boolean): void;
+  removeNode(path: string): void;
+}
+```
+
+### class `FTVFile`
+
+```ts
+export default class FTVFile extends FTVNode  {
+  deselect(): void;
+  getContainingFolder(): FTVFolder | null;
+  getName(): string;
+  getNode: () => T | null;
+  getRelativePath(): string;
+  getTreeViewContainer(): FileTreeView | null;
+  isFocused(): boolean;
+  isFolder(): this is FTVFolder;
+  isSelected(): boolean;
+  select(): void;
+  setName(name: string): void;
+  toggleSelected(): void;
+}
+```
+
+### class `FTVFolder`
+
+```ts
+export default class FTVFolder extends FTVNode  {
+  addContent(content?: FTVFile | FTVFolder | Array<FTVFile | FTVFolder> | []): void;
+  clearContent(): void;
+  collapse(): void;
+  deselect(): void;
+  expand(): void;
+  get length(): number;
+  getContainingFolder(): FTVFolder | null;
+  getContent(): FTVRef<FTVNode>;
+  getName(): string;
+  getNode: () => T | null;
+  getRelativePath(): string;
+  getTreeViewContainer(): FileTreeView | null;
+  isExpanded(): boolean;
+  isFocused(): boolean;
+  isFolder(): this is FTVFolder;
+  isSelected(): boolean;
+  select(): void;
+  setName(name: string): void;
+  toggleExpanded(): void;
+  toggleSelected(): void;
+}
+```
 <!-- embed-api-docs-end -->
 
 #### Tree state
