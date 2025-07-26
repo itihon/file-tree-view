@@ -68,6 +68,9 @@ document.body.append(fileTree);
 const fileTree = document.getElementById('file_explorer');
 ```
 
+<!-- embed-api-docs-start -->
+<!-- embed-api-docs-end -->
+
 #### Tree state
 
 ``` js
